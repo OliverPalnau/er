@@ -66,8 +66,9 @@ export default function ContactSection() {
                 regions and new additions to the scope of our services.
               </p>
               <p className="mt-6 text-md leading-8 text-gray-600">
-                *Currently, we only service products intended for US & China
-                markets. EU and SE Asian markets coming soon!
+                Currently, we only service products intended for US & China
+                markets and offer document translations between English and
+                Mandarin Chinese.
               </p>
               <dl className="mt-10 space-y-4 text-base leading-7 text-gray-600">
                 <div className="flex gap-x-4">

@@ -4,12 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { FadeIn } from "./FadeIn";
 import { Button } from "./ui/button";
-import { CalendarDays, Play } from "lucide-react"; // Importing a play icon
+import { CalendarDays } from "lucide-react";
 import thumbnail from "@/public/images/thumbnail-regulen-video.png"; // Replace with the path to your thumbnail image
 
 export default function Hero() {
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const [showThumbnail, setShowThumbnail] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -22,7 +20,9 @@ export default function Hero() {
     window.addEventListener("resize", handleResize);
 
     const handleVideoLoad = () => {
-      setVideoLoaded(true);
+      if (!isMobile) {
+        videoRef.current?.play();
+      }
     };
 
     const videoElement = videoRef.current;
@@ -37,25 +37,17 @@ export default function Hero() {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [isMobile]);
 
   const handlePlayButtonClick = () => {
     if (videoRef.current) {
       videoRef.current.play();
-      setShowThumbnail(false);
     }
   };
 
-  useEffect(() => {
-    if (!isMobile && videoRef.current) {
-      videoRef.current.play();
-      setShowThumbnail(false);
-    }
-  }, [isMobile]);
-
   return (
     <div className="relative h-screen">
-      {showThumbnail && (
+      {isMobile && (
         <div className="absolute inset-0 w-full h-full flex items-center justify-center z-20">
           <Image
             src={thumbnail}
@@ -64,26 +56,23 @@ export default function Hero() {
             objectFit="cover"
             className="absolute inset-0 w-full h-full"
           />
-          {isMobile && (
-            <button
-              onClick={handlePlayButtonClick}
-              className="bg-white text-black p-4 rounded-full"
-            >
-              <Play size={48} />
-            </button>
-          )}
+          <button
+            onClick={handlePlayButtonClick}
+            className="bg-white text-black p-4 rounded-full"
+          >
+            <Play size={48} />
+          </button>
         </div>
       )}
       <video
         ref={videoRef}
-        className="absolute inset-0 w-full h-full object-cover"
+        className={`absolute inset-0 w-full h-full object-cover ${isMobile ? "hidden" : "block"}`}
         src="/regulen-drone-footage.mov"
         autoPlay={!isMobile}
         loop
         muted
         playsInline
         preload="auto"
-        style={{ display: showThumbnail && isMobile ? "none" : "block" }}
       />
       <div className="relative z-10 flex items-center justify-center h-full bg-black bg-opacity-50 px-6 py-24 sm:py-32 lg:px-8">
         <div className="mx-auto max-w-2xl text-center text-white">

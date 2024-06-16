@@ -105,19 +105,18 @@ export default function Parallax() {
                 United States
               </h2>
               <p className="mt-8 text-lg leading-8">
-                As a regulatory services platform, we specialize in facilitating
-                New Drug Application (NDA) filings and Abbreviated New Drug
-                Application (ANDA) filings with the U.S. Food and Drug
-                Administration (FDA). We ensure that pharmaceutical companies
-                can quickly and efficiently submit their applications for new
-                drugs or generic versions of existing drugs. For NDAs, we
-                meticulously compile comprehensive information on safety,
-                efficacy, labeling, manufacturing processes, and quality
-                controls. When it comes to ANDAs, we focus on demonstrating
-                bioequivalence to reference drugs through rigorous evaluations.
-                Our goal is to support the continuous evaluation and improvement
-                of the pharmaceutical landscape, making safe and effective
-                medications accessible to patients across the United States.
+                For the US market, we specialize in facilitating New Drug
+                Application (NDA) filings and Abbreviated New Drug Application
+                (ANDA) filings. We ensure that pharmaceutical companies can
+                quickly and efficiently submit their applications for new drugs
+                or generic versions of existing drugs. For NDAs, we meticulously
+                compile comprehensive information on safety, efficacy, labeling,
+                manufacturing processes, and quality controls. When it comes to
+                ANDAs, we focus on ensuring that bioequivalence is demonstrated
+                to reference drugs in your submission. Our goal is to support
+                the continuous evaluation and improvement of the pharmaceutical
+                landscape, helping companies make safe and effective medications
+                accessible to patients across the United States faster.”
               </p>
             </div>
           </div>
@@ -148,16 +147,15 @@ export default function Parallax() {
                 companies can efficiently submit their applications for new
                 chemical drugs, new biological products, gene and cell
                 therapies, new vaccines, and new traditional Chinese medicines
-                approved for the first time in mainland China. Notably, the
-                National Medical Products Administration (NMPA) in China set a
-                new record in 2023 by approving the highest number of new drugs
-                in a single year—104 in total. These approvals encompassed a
-                wide range of therapeutic areas, including oncology drugs,
+                approved for the first time in mainland China. Notably, China
+                set a new record in 2023 by approving the highest number of new
+                drugs in a single year—104 in total. These approvals encompassed
+                a wide range of therapeutic areas, including oncology drugs,
                 anti-infective drugs, and central nervous system (CNS) drugs.
-                Additionally, our platform supports the expedited regulatory
-                pathways for rare disease drugs and pediatric drugs, addressing
-                unmet clinical needs and ensuring that innovative treatments
-                reach patients efficiently.
+                Additionally, we make sure that companies can effectively use
+                the expedited regulatory pathways for rare disease drugs and
+                pediatric drugs, addressing unmet clinical needs and ensuring
+                that innovative treatments reach patients efficiently.
               </p>
             </div>
           </div>
