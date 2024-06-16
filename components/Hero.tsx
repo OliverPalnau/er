@@ -4,58 +4,84 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { FadeIn } from "./FadeIn";
 import { Button } from "./ui/button";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, Play } from "lucide-react"; // Importing a play icon
 import thumbnail from "@/public/images/thumbnail-regulen-video.png"; // Replace with the path to your thumbnail image
 
 export default function Hero() {
   const [videoLoaded, setVideoLoaded] = useState(false);
+  const [showThumbnail, setShowThumbnail] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    const handleVideoLoad = () => {
-      setVideoLoaded(true);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
     };
 
-    const handlePlay = () => {
-      if (videoRef.current) {
-        videoRef.current.play();
-      }
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    const handleVideoLoad = () => {
+      setVideoLoaded(true);
     };
 
     const videoElement = videoRef.current;
     if (videoElement) {
       videoElement.addEventListener("loadeddata", handleVideoLoad);
-      document.addEventListener("scroll", handlePlay, { once: true });
-      document.addEventListener("click", handlePlay, { once: true });
 
       return () => {
         videoElement.removeEventListener("loadeddata", handleVideoLoad);
-        document.removeEventListener("scroll", handlePlay);
-        document.removeEventListener("click", handlePlay);
       };
     }
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
+
+  const handlePlayButtonClick = () => {
+    if (videoRef.current) {
+      videoRef.current.play();
+      setShowThumbnail(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!isMobile && videoRef.current) {
+      videoRef.current.play();
+      setShowThumbnail(false);
+    }
+  }, [isMobile]);
 
   return (
     <div className="relative h-screen">
-      <Image
-        src={thumbnail}
-        alt="Regulen Thumbnail"
-        layout="fill"
-        objectFit="cover"
-        className={`absolute inset-0 w-full h-full transition-opacity duration-300 ${
-          videoLoaded ? "opacity-0" : "opacity-100"
-        }`}
-      />
+      {isMobile && showThumbnail && (
+        <div className="absolute inset-0 w-full h-full flex items-center justify-center z-20">
+          <Image
+            src={thumbnail}
+            alt="Regulen Thumbnail"
+            layout="fill"
+            objectFit="cover"
+            className="absolute inset-0 w-full h-full"
+          />
+          <button
+            onClick={handlePlayButtonClick}
+            className="bg-white text-black p-4 rounded-full"
+          >
+            <Play size={48} />
+          </button>
+        </div>
+      )}
       <video
         ref={videoRef}
         className="absolute inset-0 w-full h-full object-cover"
         src="/regulen-drone-footage.mov"
-        autoPlay
+        autoPlay={!isMobile}
         loop
         muted
         playsInline
         preload="auto"
+        style={{ display: isMobile && showThumbnail ? "none" : "block" }}
       />
       <div className="relative z-10 flex items-center justify-center h-full bg-black bg-opacity-50 px-6 py-24 sm:py-32 lg:px-8">
         <div className="mx-auto max-w-2xl text-center text-white">
@@ -86,6 +112,13 @@ export default function Hero() {
           </div>
         </div>
       </div>
+      <style jsx>{`
+        @media (min-width: 768px) {
+          .md\\:hidden {
+            display: none;
+          }
+        }
+      `}</style>
     </div>
   );
 }
