@@ -69,18 +69,7 @@ export default function Hero() {
               lifecycle.
             </p>
           </FadeIn>
-          <div className="mt-12 flex justify-center">
-            <a
-              href="https://calendly.com/your-calendly-link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button variant="bookCall" className="flex items-center">
-                <CalendarDays className="mr-2" />
-                Schedule a Call
-              </Button>
-            </a>
-          </div>
+
         </div>
       </div>
     </div>
