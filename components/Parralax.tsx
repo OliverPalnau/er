@@ -9,27 +9,45 @@ import womanInOffice from "../public/images/woman-in-office.jpg";
 export default function Parallax() {
   const usaSvgRef = useRef<HTMLImageElement>(null);
   const chinaSvgRef = useRef<HTMLImageElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const isSmallScreen = window.innerWidth < 1024;
+      const imageHeight = window.innerHeight; // Assuming the image takes the full height of the viewport
+
+      if (sectionRef.current && overlayRef.current && contentRef.current) {
+        const sectionTop = sectionRef.current.getBoundingClientRect().top;
+        const sectionHeight = sectionRef.current.offsetHeight;
+        const contentTop = contentRef.current.getBoundingClientRect().top;
+        const contentBottom = contentRef.current.getBoundingClientRect().bottom;
+        const maxScroll = imageHeight + sectionHeight;
+
+        if (contentTop < window.innerHeight && contentTop > -sectionHeight) {
+          const opacity = Math.min((scrollY - sectionRef.current.offsetTop) / maxScroll, 0.7);
+          overlayRef.current.style.opacity = opacity.toString();
+        } else if (contentBottom <= 0) {
+          overlayRef.current.style.opacity = '0';
+        }
+      }
 
       if (usaSvgRef.current) {
-        const scale = isSmallScreen
+        const scale = window.innerWidth < 1024
           ? Math.min(1 + scrollY / 2000, 1.1)
           : Math.min(1 + scrollY / 800, 2);
-        const translateY = isSmallScreen
+        const translateY = window.innerWidth < 1024
           ? Math.min(scrollY / 4, 100)
           : Math.min(scrollY / 2, 300);
         usaSvgRef.current.style.transform = `translateY(${translateY}px) scale(${scale})`;
       }
 
       if (chinaSvgRef.current) {
-        const scale = isSmallScreen
+        const scale = window.innerWidth < 1024
           ? Math.min(1 + (scrollY - 800) / 2000, 1.1)
           : Math.min(1 + (scrollY - 800) / 800, 2);
-        const translateY = isSmallScreen
+        const translateY = window.innerWidth < 1024
           ? Math.min((scrollY - 800) / 4, 100)
           : Math.min((scrollY - 800) / 2, 300);
         chinaSvgRef.current.style.transform = `translateY(${translateY}px) scale(${scale})`;
@@ -44,14 +62,10 @@ export default function Parallax() {
           window.removeEventListener("scroll", handleScroll);
         }
       });
-    });
+    }, { threshold: 0.1 });
 
-    if (usaSvgRef.current) {
-      observer.observe(usaSvgRef.current);
-    }
-
-    if (chinaSvgRef.current) {
-      observer.observe(chinaSvgRef.current);
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
     }
 
     return () => {
@@ -63,7 +77,7 @@ export default function Parallax() {
   return (
     <div className="relative bg-black text-white min-h-screen">
       {/* Sticky Background Image */}
-      <div className="sticky top-0 h-screen">
+      <div ref={sectionRef} className="sticky top-0 h-screen">
         <div className="relative h-full">
           <Image
             src={womanInOffice}
@@ -73,14 +87,17 @@ export default function Parallax() {
             objectPosition="bottom left"
             priority
           />
-          <div className="absolute inset-0 bg-black opacity-70"></div> {/* Black overlay */}
+          <div
+            ref={overlayRef}
+            className="absolute inset-0 bg-black opacity-0 transition-opacity duration-5000"
+          ></div>
         </div>
       </div>
 
       {/* Parallax Content */}
-      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 space-y-24 pb-32"> {/* Reduced space-y */}
+      <div ref={contentRef} className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 space-y-24 pb-32">
         {/* Heading Section */}
-        <div className="text-center pt-12"> {/* Adjusted padding */}
+        <div className="text-center pt-12">
           <h1 className="text-5xl font-medium tracking-tight sm:text-6xl lg:text-7xl leading-tight">
             Areas We Serve
           </h1>
