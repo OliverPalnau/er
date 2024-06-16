@@ -1,3 +1,5 @@
+"use client";
+
 import {
   BuildingOffice2Icon,
   EnvelopeIcon,
@@ -53,15 +55,19 @@ export default function ContactSection() {
               <h2 className="text-4xl font-medium tracking-tight text-gray-900">
                 Contact Us
               </h2>
-
-              <p className="mt-6 text-lg leading-8 text-gray-600">
-                EU and SE Asian markets coming soon! Please email us and we will
-                keep you closely updated on new regions and new additions to the
-                scope of our services!
+              <p className="mt-6 text-md leading-8 text-gray-600">
+                We are here to assist you with any questions or inquiries you
+                may have. Whether you are looking for more information about our
+                services, need support, or want to provide feedback, please feel
+                free to get in touch.
               </p>
-              <p className="mt-6 text-lg leading-8 text-gray-600">
+              <p className="mt-6 text-md leading-8 text-gray-600">
+                Please email us and we will keep you closely updated on new
+                regions and new additions to the scope of our services.
+              </p>
+              <p className="mt-6 text-md leading-8 text-gray-600">
                 *Currently, we only service products intended for US & China
-                markets.
+                markets. EU and SE Asian markets coming soon!
               </p>
               <dl className="mt-10 space-y-4 text-base leading-7 text-gray-600">
                 <div className="flex gap-x-4">
