@@ -36,8 +36,28 @@ export default function Parallax() {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          window.addEventListener("scroll", handleScroll);
+        } else {
+          window.removeEventListener("scroll", handleScroll);
+        }
+      });
+    });
+
+    if (usaSvgRef.current) {
+      observer.observe(usaSvgRef.current);
+    }
+
+    if (chinaSvgRef.current) {
+      observer.observe(chinaSvgRef.current);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
   }, []);
 
   return (
