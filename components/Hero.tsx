@@ -55,7 +55,7 @@ export default function Hero() {
 
   return (
     <div className="relative h-screen">
-      {isMobile && showThumbnail && (
+      {showThumbnail && (
         <div className="absolute inset-0 w-full h-full flex items-center justify-center z-20">
           <Image
             src={thumbnail}
@@ -64,12 +64,14 @@ export default function Hero() {
             objectFit="cover"
             className="absolute inset-0 w-full h-full"
           />
-          <button
-            onClick={handlePlayButtonClick}
-            className="bg-white text-black p-4 rounded-full"
-          >
-            <Play size={48} />
-          </button>
+          {isMobile && (
+            <button
+              onClick={handlePlayButtonClick}
+              className="bg-white text-black p-4 rounded-full"
+            >
+              <Play size={48} />
+            </button>
+          )}
         </div>
       )}
       <video
@@ -81,7 +83,7 @@ export default function Hero() {
         muted
         playsInline
         preload="auto"
-        style={{ display: isMobile && showThumbnail ? "none" : "block" }}
+        style={{ display: showThumbnail && isMobile ? "none" : "block" }}
       />
       <div className="relative z-10 flex items-center justify-center h-full bg-black bg-opacity-50 px-6 py-24 sm:py-32 lg:px-8">
         <div className="mx-auto max-w-2xl text-center text-white">
