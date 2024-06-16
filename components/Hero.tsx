@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { FadeIn } from "./FadeIn";
 import { Button } from "./ui/button";
-import { CalendarDays, Play } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 import thumbnail from "@/public/images/thumbnail-regulen-video.png"; // Replace with the path to your thumbnail image
 
 export default function Hero() {
@@ -19,25 +19,10 @@ export default function Hero() {
     handleResize();
     window.addEventListener("resize", handleResize);
 
-    const handleVideoLoad = () => {
-      if (!isMobile) {
-        videoRef.current?.play();
-      }
-    };
-
-    const videoElement = videoRef.current;
-    if (videoElement) {
-      videoElement.addEventListener("loadeddata", handleVideoLoad);
-
-      return () => {
-        videoElement.removeEventListener("loadeddata", handleVideoLoad);
-      };
-    }
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [isMobile]);
+  }, []);
 
   const handlePlayButtonClick = () => {
     if (videoRef.current) {
@@ -47,7 +32,7 @@ export default function Hero() {
 
   return (
     <div className="relative h-screen">
-      {isMobile && (
+      {isMobile ? (
         <div className="absolute inset-0 w-full h-full flex items-center justify-center z-0">
           <Image
             src={thumbnail}
@@ -57,19 +42,18 @@ export default function Hero() {
             className="absolute inset-0 w-full h-full"
           />
         </div>
+      ) : (
+        <video
+          ref={videoRef}
+          className="absolute inset-0 w-full h-full object-cover"
+          src="/regulen-drone-footage.mov"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+        />
       )}
-      <video
-        ref={videoRef}
-        className={`absolute inset-0 w-full h-full object-cover ${
-          isMobile ? "hidden" : "block"
-        }`}
-        src="/regulen-drone-footage.mov"
-        autoPlay={!isMobile}
-        loop
-        muted
-        playsInline
-        preload="auto"
-      />
       <div className="relative z-20 flex items-center justify-center h-full bg-black bg-opacity-50 px-6 py-24 sm:py-32 lg:px-8">
         <div className="mx-auto max-w-2xl text-center text-white">
           <h1 className="text-4xl font-medium tracking-tight sm:text-6xl">

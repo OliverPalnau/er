@@ -19,19 +19,19 @@ const panelDetails = [
     subtitle:
       "We handle the required registrations, licensing, and product lifecycle management of complete nutrient formulas for:",
     description: ` 
-    ■ Diabetes mellitus
-    ■ Respiratory system illness
-    ■ Kidney disease
-    ■ Oncological conditions
-    ■ Liver disease
-    ■ Sarcopenia syndrome
-    ■ Trauma, infection, surgery, and other stress conditions
-    ■ Inflammatory bowel disease
-    ■ Food protein allergies
-    ■ Refractory epilepsy
-    ■ Gastrointestinal malabsorption and pancreatitis
-    ■ Fatty acid metabolic abnormality
-    ■ Obesity and fat reduction surgery
+    ■  Diabetes mellitus
+    ■  Respiratory system illness
+    ■  Kidney disease
+    ■  Oncological conditions
+    ■  Liver disease
+    ■  Sarcopenia syndrome
+    ■  Trauma, infection, surgery, and other stress conditions
+    ■  Inflammatory bowel disease
+    ■  Food protein allergies
+    ■  Refractory epilepsy
+    ■  Gastrointestinal malabsorption and pancreatitis
+    ■  Fatty acid metabolic abnormality
+    ■  Obesity and fat reduction surgery
     And more.`,
     image: ImageOne,
   },
@@ -40,11 +40,11 @@ const panelDetails = [
     subtitle: "We offer and ensure:",
 
     description: `
-    ■ NDA and ANDA filings in the U.S. for new and generic drugs.
-    ■ Compilation of detailed information on drug safety, efficacy, labeling, manufacturing, and quality controls for NDAs.
-    ■ Bioequivalence to reference drugs for ANDA submissions.
-    ■ NDAs in China for various drug categories including chemical drugs, biological products, and traditional Chinese medicines.
-    ■ Leveraging of expedited pathways for rare disease and pediatric drugs in China to meet clinical needs and advance treatment availability.`,
+    ■  NDA and ANDA filings in the U.S. for new and generic drugs.
+    ■  Compilation of detailed information on drug safety, efficacy, labeling, manufacturing, and quality controls for NDAs.
+    ■  Bioequivalence to reference drugs for ANDA submissions.
+    ■  NDAs in China for various drug categories including chemical drugs, biological products, and traditional Chinese medicines.
+    ■  Leveraging of expedited pathways for rare disease and pediatric drugs in China to meet clinical needs and advance treatment availability.`,
     image: ImageTwo,
   },
   {
@@ -52,10 +52,10 @@ const panelDetails = [
     subtitle: "We offer and ensure:",
 
     description: `
-    ■ PMAs and 510(k) filings in the U.S. for medical devices.
-    ■ Compilation of detailed information on device safety, effectiveness, labeling, manufacturing, and quality controls for PMAs.
-    ■ Substantial equivalence to predicate devices for 510k submissions.
-    ■ Medical Device Registrations in China for various device categories.`,
+    ■  PMAs and 510(k) filings in the U.S. for medical devices.
+    ■  Compilation of detailed information on device safety, effectiveness, labeling, manufacturing, and quality controls for PMAs.
+    ■  Substantial equivalence to predicate devices for 510k submissions.
+    ■  Medical Device Registrations in China for various device categories.`,
     image: ImageThree,
   },
 ];
@@ -75,9 +75,9 @@ export default function ThreePanelComponent() {
     const items = description.split("\n").map((item, index) => {
       if (item.trim() === "") return null;
       return (
-        <div key={index} className="flex items-start space-x-1">
-          <div className="h-2.5 w-2.5 bg-black mt-2 flex-none"></div>
-          <p className="text-base leading-7 text-gray-600">
+        <div key={index} className="flex items-start space-x-2">
+          <div className="h-2 w-2 bg-black mt-2 flex-none"></div>
+          <p className="text-base leading-7 text-gray-600 ml-2">
             {item.trim().replace("■ ", "")}
           </p>
         </div>
@@ -111,6 +111,11 @@ export default function ThreePanelComponent() {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                   <span className="text-3xl">{panel.title}</span>
+                  {expandedItems.includes(`item-${index}`) ? (
+                    <ChevronUp className="h-8 w-8 ml-2" />
+                  ) : (
+                    <ChevronDown className="h-8 w-8 ml-2" />
+                  )}
                 </div>
               </AccordionTrigger>
               <AccordionContent className="p-4 bg-white mb-4">
