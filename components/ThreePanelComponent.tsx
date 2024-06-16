@@ -233,24 +233,7 @@ export default function ThreePanelComponent() {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                   <span className="text-3xl">{panel.title}</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className={`h-6 w-6 ml-2 transition-transform duration-300 ${
-                      expandedItems.includes(`item-${index}`)
-                        ? "rotate-180"
-                        : ""
-                    }`}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={4}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
+
                 </div>
               </AccordionTrigger>
               <AccordionContent className="p-4 bg-white">
