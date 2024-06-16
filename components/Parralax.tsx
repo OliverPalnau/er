@@ -12,9 +12,7 @@ export default function Parallax() {
   const overlayRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
   const [prevScrollY, setPrevScrollY] = useState(0);
-  const [headingInView, setHeadingInView] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,69 +27,82 @@ export default function Parallax() {
 
         if (scrollY > prevScrollY) {
           // Scrolling down
-          if (contentTop < window.innerHeight && headingInView) {
-            const opacity = Math.min((scrollY - sectionRef.current.offsetTop) / maxScroll, 0.7);
+          if (contentTop < window.innerHeight && contentTop > -sectionHeight) {
+            const opacity = Math.min(
+              (scrollY - sectionRef.current.offsetTop) / maxScroll,
+              0.7
+            );
             overlayRef.current.style.opacity = opacity.toString();
-          } else {
-            overlayRef.current.style.opacity = '0';
+          } else if (sectionTop >= window.innerHeight) {
+            overlayRef.current.style.opacity;
+            overlayRef.current.style.opacity = "0";
           }
         } else {
           // Scrolling up
-          if (!headingInView) {
-            const opacity = Math.min((sectionRef.current.offsetTop - scrollY) / maxScroll, 0.7);
+          if (contentTop < window.innerHeight && contentTop > -sectionHeight) {
+            const opacity = Math.min(
+              (sectionRef.current.offsetTop - scrollY) / maxScroll,
+              0.7
+            );
             overlayRef.current.style.opacity = opacity.toString();
-          } else {
-            overlayRef.current.style.opacity = '0';
+          } else if (sectionTop >= window.innerHeight) {
+            overlayRef.current.style.opacity = "0";
           }
         }
       }
 
       if (usaSvgRef.current) {
-        const scale = window.innerWidth < 1024
-          ? Math.min(1 + scrollY / 2000, 1.1)
-          : Math.min(1 + scrollY / 800, 2);
-        const translateY = window.innerWidth < 1024
-          ? Math.min(scrollY / 4, 100)
-          : Math.min(scrollY / 2, 300);
+        const scale =
+          window.innerWidth < 1024
+            ? Math.min(1 + scrollY / 2000, 1.1)
+            : Math.min(1 + scrollY / 800, 2);
+        const translateY =
+          window.innerWidth < 1024
+            ? Math.min(scrollY / 4, 100)
+            : Math.min(scrollY / 2, 300);
         usaSvgRef.current.style.transform = `translateY(${translateY}px) scale(${scale})`;
       }
 
       if (chinaSvgRef.current) {
-        const scale = window.innerWidth < 1024
-          ? Math.min(1 + (scrollY - 800) / 2000, 1.1)
-          : Math.min(1 + (scrollY - 800) / 800, 2);
-        const translateY = window.innerWidth < 1024
-          ? Math.min((scrollY - 800) / 4, 100)
-          : Math.min((scrollY - 800) / 2, 300);
+        const scale =
+          window.innerWidth < 1024
+            ? Math.min(1 + (scrollY - 800) / 2000, 1.1)
+            : Math.min(1 + (scrollY - 800) / 800, 2);
+        const translateY =
+          window.innerWidth < 1024
+            ? Math.min((scrollY - 800) / 4, 100)
+            : Math.min((scrollY - 800) / 2, 300);
         chinaSvgRef.current.style.transform = `translateY(${translateY}px) scale(${scale})`;
       }
 
       setPrevScrollY(scrollY);
     };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        setHeadingInView(entry.isIntersecting);
-        if (entry.isIntersecting) {
-          window.addEventListener("scroll", handleScroll);
-        } else {
-          window.removeEventListener("scroll", handleScroll);
-          if (overlayRef.current && entry.boundingClientRect.top >= 0) {
-            overlayRef.current.style.opacity = '0';
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            window.addEventListener("scroll", handleScroll);
+          } else {
+            window.removeEventListener("scroll", handleScroll);
+            if (overlayRef.current && entry.boundingClientRect.top >= 0) {
+              overlayRef.current.style.opacity = "0";
+            }
           }
-        }
-      });
-    }, { threshold: 0.1 });
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-    if (headingRef.current) {
-      observer.observe(headingRef.current);
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
     }
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       observer.disconnect();
     };
-  }, [prevScrollY, headingInView]);
+  }, [prevScrollY]);
 
   return (
     <div className="relative bg-black text-white min-h-screen">
@@ -114,9 +125,12 @@ export default function Parallax() {
       </div>
 
       {/* Parallax Content */}
-      <div ref={contentRef} className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 space-y-24 pb-32">
+      <div
+        ref={contentRef}
+        className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 space-y-24 pb-32"
+      >
         {/* Heading Section */}
-        <div ref={headingRef} className="text-center pt-12">
+        <div className="text-center pt-12">
           <h1 className="text-5xl font-medium tracking-tight sm:text-6xl lg:text-7xl leading-tight">
             Areas We Serve
           </h1>

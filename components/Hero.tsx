@@ -5,7 +5,7 @@ import Image from "next/image";
 import { FadeIn } from "./FadeIn";
 import { Button } from "./ui/button";
 import { CalendarDays } from "lucide-react";
-import thumbnail from "@/public/images/thumbnail-regulen-video.png"; // Replace with the path to your thumbnail image
+import thumbnail from "@/public/images/thumbnail-regulen.png"; // Replace with the path to your thumbnail image
 
 export default function Hero() {
   const [isMobile, setIsMobile] = useState(false);
