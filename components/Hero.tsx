@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { FadeIn } from "./FadeIn";
 import { Button } from "./ui/button";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, Play } from "lucide-react";
 import thumbnail from "@/public/images/thumbnail-regulen-video.png"; // Replace with the path to your thumbnail image
 
 export default function Hero() {
