@@ -78,9 +78,9 @@ export default function Parallax() {
       </div>
 
       {/* Parallax Content */}
-      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 space-y-32 pb-32">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 space-y-24 pb-32"> {/* Reduced space-y */}
         {/* Heading Section */}
-        <div className="text-center py-12">
+        <div className="text-center pt-12"> {/* Adjusted padding */}
           <h1 className="text-5xl font-medium tracking-tight sm:text-6xl lg:text-7xl leading-tight">
             Areas We Serve
           </h1>
