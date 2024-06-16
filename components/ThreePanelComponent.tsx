@@ -2,11 +2,16 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"; // Adjust the import path as necessary
+import { ChevronDown, ChevronUp } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"; // Adjust the import path as necessary
 import ImageOne from "@/public/images/image-one.png"; // Replace with your image path
 import ImageTwo from "@/public/images/image-two.png"; // Replace with your image path
 import ImageThree from "@/public/images/image-three.png"; // Replace with your image path
-import { ChevronDown } from "lucide-react";
 
 const panelDetails = [
   {
@@ -106,7 +111,6 @@ export default function ThreePanelComponent() {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                   <span className="text-3xl">{panel.title}</span>
-                  <ChevronDown className={`h-8 w-8 ml-2 transition-transform duration-300 ${expandedItems.includes(`item-${index}`) ? "rotate-180" : ""}`} />
                 </div>
               </AccordionTrigger>
               <AccordionContent className="p-4 bg-white mb-4">
