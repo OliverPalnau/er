@@ -12,6 +12,7 @@ export default function Hero() {
         loop
         muted
         playsInline
+        preload="auto"
       />
       <div className="relative z-10 flex items-center justify-center h-full bg-black bg-opacity-50 px-6 py-24 sm:py-32 lg:px-8">
         <div className="mx-auto max-w-2xl text-center text-white">
