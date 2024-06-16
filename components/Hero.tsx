@@ -70,7 +70,7 @@ export default function Hero() {
         playsInline
         preload="auto"
       />
-      <div className="relative z-20 flex items-center justify-center h-full bg-black bg-opacity-50 px-6 py-14 sm:py-32 lg:px-8">
+      <div className="relative z-20 flex items-center justify-center h-full bg-black bg-opacity-50 px-6 py-24 sm:py-32 lg:px-8">
         <div className="mx-auto max-w-2xl text-center text-white">
           <h1 className="text-4xl font-medium tracking-tight sm:text-6xl">
             Global Pharma Made
