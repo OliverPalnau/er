@@ -114,13 +114,6 @@ export default function Hero() {
           </div>
         </div>
       </div>
-      <style jsx>{`
-        @media (min-width: 768px) {
-          .md\\:hidden {
-            display: none;
-          }
-        }
-      `}</style>
     </div>
   );
 }
