@@ -75,7 +75,7 @@ export default function ThreePanelComponent() {
     const items = description.split("\n").map((item, index) => {
       if (item.trim() === "") return null;
       return (
-        <div key={index} className="flex items-start space-x-2">
+        <div key={index} className="flex items-start space-x-1">
           <div className="h-2.5 w-2.5 bg-black mt-2 flex-none"></div>
           <p className="text-base leading-7 text-gray-600">
             {item.trim().replace("■ ", "")}
@@ -94,7 +94,7 @@ export default function ThreePanelComponent() {
   return (
     <div className="mx-auto w-full">
       <Accordion type="single" collapsible>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-1">
           {panelDetails.map((panel, index) => (
             <AccordionItem
               key={index}
