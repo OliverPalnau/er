@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion, useAnimation, useInView } from "framer-motion";
-import { useRef, useEffect } from "react";
 import ImageOne from "@/public/images/image-one.png"; // Replace with your image path
 import ImageTwo from "@/public/images/image-two.png"; // Replace with your image path
 import ImageThree from "@/public/images/image-three.png"; // Replace with your image path
@@ -24,7 +23,8 @@ const fadeIn = {
 };
 
 export default function ThreePanelComponent() {
-  const [hoveredPanel, setHoveredPanel] = useState<null | number>(null);
+  const [activePanel, setActivePanel] = useState<null | number>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
   const controls = useAnimation();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
@@ -33,6 +33,14 @@ export default function ThreePanelComponent() {
     if (isInView) {
       controls.start("show");
     }
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+
+    handleResize(); // Check on initial load
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [isInView, controls]);
 
   const panels = [
@@ -53,6 +61,24 @@ export default function ThreePanelComponent() {
     },
   ];
 
+  const handlePanelClick = (index: number) => {
+    if (isMobile) {
+      setActivePanel(activePanel === index ? null : index);
+    }
+  };
+
+  const handleMouseEnter = (index: number) => {
+    if (!isMobile) {
+      setActivePanel(index);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isMobile) {
+      setActivePanel(null);
+    }
+  };
+
   return (
     <motion.div
       className="flex flex-col sm:flex-row space-y-1 sm:space-y-0 sm:space-x-1"
@@ -65,8 +91,9 @@ export default function ThreePanelComponent() {
         <motion.div
           key={index}
           className="relative w-full sm:w-1/3 h-64 sm:h-96 overflow-hidden"
-          onMouseEnter={() => setHoveredPanel(index)}
-          onMouseLeave={() => setHoveredPanel(null)}
+          onClick={() => handlePanelClick(index)}
+          onMouseEnter={() => handleMouseEnter(index)}
+          onMouseLeave={handleMouseLeave}
           variants={fadeIn}
         >
           <Image
@@ -74,16 +101,21 @@ export default function ThreePanelComponent() {
             alt={panel.title}
             layout="fill"
             objectFit="cover"
-            className="transition-transform duration-300 ease-in-out transform hover:scale-110"
+            className={`transition-transform duration-300 ease-in-out transform ${
+              activePanel === index ? "scale-110" : ""
+            }`}
           />
-          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50">
             <h2 className="text-3xl sm:text-5xl font-medium text-white text-center">
               {panel.title}
             </h2>
+            {isMobile && (
+              <p className="mt-2 text-sm text-white">View More</p>
+            )}
           </div>
           <div
             className={`absolute inset-0 flex items-center justify-center bg-white text-black p-4 transition-opacity duration-300 ${
-              hoveredPanel === index ? "opacity-100" : "opacity-0"
+              activePanel === index ? "opacity-100" : "opacity-0"
             }`}
           >
             <p className="text-base sm:text-lg text-center">
