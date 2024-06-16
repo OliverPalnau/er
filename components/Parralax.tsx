@@ -50,9 +50,8 @@ export default function Parallax() {
             alt="Woman in Office"
             layout="fill"
             objectFit="cover"
-            objectPosition="bottom"
+            objectPosition="bottom left"
             priority
-            className="opacity-70"
           />
         </div>
       </div>
