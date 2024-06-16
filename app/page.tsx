@@ -24,9 +24,9 @@ export default function Home() {
     <div>
       <Header />
       <Hero />
-      <HeroTwo />
-      <ThreePanelComponent />
       <ServicesSectionAlternate />
+      <ThreePanelComponent />
+
       <Parallax />
 
       <ContactSection />
