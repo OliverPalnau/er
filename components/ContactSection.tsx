@@ -83,26 +83,9 @@ export default function ContactSection() {
                     />
                   </dt>
                   <dd>
-                    123 Anytown Rd
+                    350 Wireless Blvd.
                     <br />
-                    Anytown, NY 11111
-                  </dd>
-                </div>
-                <div className="flex gap-x-4">
-                  <dt className="flex-none">
-                    <span className="sr-only">Telephone</span>
-                    <PhoneIcon
-                      className="h-7 w-6 text-gray-400"
-                      aria-hidden="true"
-                    />
-                  </dt>
-                  <dd>
-                    <a
-                      className="hover:text-gray-900"
-                      href="tel:+1 (555) 555-5555"
-                    >
-                      +1 (555) 555-5555
-                    </a>
+                    Hauppauge, NY 11788
                   </dd>
                 </div>
                 <div className="flex gap-x-4">

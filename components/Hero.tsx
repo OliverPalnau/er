@@ -1,11 +1,9 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
-import { FadeIn } from "./FadeIn";
-import { Button } from "./ui/button";
-import { CalendarDays } from "lucide-react";
 import thumbnail from "@/public/images/thumbnail-regulen.png"; // Replace with the path to your thumbnail image
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { FadeIn } from "./FadeIn";
 
 export default function Hero() {
   const [isMobile, setIsMobile] = useState(false);
@@ -69,7 +67,6 @@ export default function Hero() {
               lifecycle.
             </p>
           </FadeIn>
-
         </div>
       </div>
     </div>
