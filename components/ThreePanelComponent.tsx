@@ -111,11 +111,6 @@ export default function ThreePanelComponent() {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                   <span className="text-3xl">{panel.title}</span>
-                  {expandedItems.includes(`item-${index}`) ? (
-                    <ChevronUp className="h-8 w-8 ml-2" />
-                  ) : (
-                    <ChevronDown className="h-8 w-8 ml-2" />
-                  )}
                 </div>
               </AccordionTrigger>
               <AccordionContent className="p-4 bg-white mb-4">
