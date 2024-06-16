@@ -73,6 +73,7 @@ export default function Parallax() {
             objectPosition="bottom left"
             priority
           />
+          <div className="absolute inset-0 bg-black opacity-70"></div> {/* Black overlay */}
         </div>
       </div>
 
@@ -116,7 +117,7 @@ export default function Parallax() {
                 to reference drugs in your submission. Our goal is to support
                 the continuous evaluation and improvement of the pharmaceutical
                 landscape, helping companies make safe and effective medications
-                accessible to patients across the United States faster.”
+                accessible to patients across the United States faster.
               </p>
             </div>
           </div>
