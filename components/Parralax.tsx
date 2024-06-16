@@ -89,11 +89,13 @@ export default function Parallax() {
         {/* USA Section */}
         <section className="parallax-section py-24 sm:py-32 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-            <div className="flex justify-center lg:justify-start relative lg:pr-20"> {/* Added padding */}
+            <div className="flex justify-center lg:justify-start relative">
               <div className="usa-svg-container">
                 <Image
                   src={usaSvg}
                   alt="United States"
+                  width={300}
+                  height={180}
                   className="object-contain usa-image"
                   ref={usaSvgRef}
                 />
@@ -124,11 +126,13 @@ export default function Parallax() {
         {/* China Section */}
         <section className="parallax-section py-24 sm:py-32 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-            <div className="flex justify-center lg:justify-start relative lg:pr-20 pb-20"> {/* Added padding */}
+            <div className="flex justify-center lg:justify-start relative">
               <div className="china-svg-container">
                 <Image
                   src={chinaSvg}
                   alt="China"
+                  width={300}
+                  height={180}
                   className="object-contain china-image"
                   ref={chinaSvgRef}
                 />
@@ -173,8 +177,6 @@ export default function Parallax() {
         }
         .usa-image,
         .china-image {
-          width: 200px; /* Default width for larger screens */
-          height: auto;
           transition: transform 0.1s ease-out;
         }
         @media (max-width: 1024px) {
@@ -193,7 +195,7 @@ export default function Parallax() {
           }
           .usa-image,
           .china-image {
-            width: 150px; /* Smaller width for SVGs on smaller screens */
+            width: 200px; /* Smaller width for SVGs on smaller screens */
             height: auto;
           }
         }
