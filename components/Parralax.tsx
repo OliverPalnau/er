@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import chinaSvg from "../public/images/China.svg";
 import usaSvg from "../public/images/US.svg";
 import womanInOffice from "../public/images/woman-in-office.jpg";
@@ -12,6 +12,9 @@ export default function Parallax() {
   const overlayRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
+  const [prevScrollY, setPrevScrollY] = useState(0);
+  const [headingInView, setHeadingInView] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,14 +25,24 @@ export default function Parallax() {
         const sectionTop = sectionRef.current.getBoundingClientRect().top;
         const sectionHeight = sectionRef.current.offsetHeight;
         const contentTop = contentRef.current.getBoundingClientRect().top;
-        const contentBottom = contentRef.current.getBoundingClientRect().bottom;
         const maxScroll = imageHeight + sectionHeight;
 
-        if (contentTop < window.innerHeight && contentTop > -sectionHeight) {
-          const opacity = Math.min((scrollY - sectionRef.current.offsetTop) / maxScroll, 0.7);
-          overlayRef.current.style.opacity = opacity.toString();
-        } else if (contentBottom <= 0) {
-          overlayRef.current.style.opacity = '0';
+        if (scrollY > prevScrollY) {
+          // Scrolling down
+          if (contentTop < window.innerHeight && headingInView) {
+            const opacity = Math.min((scrollY - sectionRef.current.offsetTop) / maxScroll, 0.7);
+            overlayRef.current.style.opacity = opacity.toString();
+          } else {
+            overlayRef.current.style.opacity = '0';
+          }
+        } else {
+          // Scrolling up
+          if (!headingInView) {
+            const opacity = Math.min((sectionRef.current.offsetTop - scrollY) / maxScroll, 0.7);
+            overlayRef.current.style.opacity = opacity.toString();
+          } else {
+            overlayRef.current.style.opacity = '0';
+          }
         }
       }
 
@@ -52,27 +65,33 @@ export default function Parallax() {
           : Math.min((scrollY - 800) / 2, 300);
         chinaSvgRef.current.style.transform = `translateY(${translateY}px) scale(${scale})`;
       }
+
+      setPrevScrollY(scrollY);
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
+        setHeadingInView(entry.isIntersecting);
         if (entry.isIntersecting) {
           window.addEventListener("scroll", handleScroll);
         } else {
           window.removeEventListener("scroll", handleScroll);
+          if (overlayRef.current && entry.boundingClientRect.top >= 0) {
+            overlayRef.current.style.opacity = '0';
+          }
         }
       });
     }, { threshold: 0.1 });
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    if (headingRef.current) {
+      observer.observe(headingRef.current);
     }
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       observer.disconnect();
     };
-  }, []);
+  }, [prevScrollY, headingInView]);
 
   return (
     <div className="relative bg-black text-white min-h-screen">
@@ -97,7 +116,7 @@ export default function Parallax() {
       {/* Parallax Content */}
       <div ref={contentRef} className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 space-y-24 pb-32">
         {/* Heading Section */}
-        <div className="text-center pt-12">
+        <div ref={headingRef} className="text-center pt-12">
           <h1 className="text-5xl font-medium tracking-tight sm:text-6xl lg:text-7xl leading-tight">
             Areas We Serve
           </h1>
