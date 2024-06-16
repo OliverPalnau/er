@@ -1,11 +1,41 @@
+"use client"
+
+import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { FadeIn } from "./FadeIn";
 import { Button } from "./ui/button";
 import { CalendarDays } from "lucide-react";
+import thumbnail from "@/public/images/thumbnail-regulen-video.png"; // Replace with the path to your thumbnail image
 
 export default function Hero() {
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const handleVideoLoad = () => {
+      setVideoLoaded(true);
+    };
+
+    const videoElement = videoRef.current;
+    if (videoElement) {
+      videoElement.addEventListener("loadeddata", handleVideoLoad);
+      return () => {
+        videoElement.removeEventListener("loadeddata", handleVideoLoad);
+      };
+    }
+  }, []);
+
   return (
     <div className="relative h-screen">
+      <Image
+        src={thumbnail}
+        alt="Regulen Thumbnail"
+        layout="fill"
+        objectFit="cover"
+        className={`absolute inset-0 w-full h-full transition-opacity duration-300 ${videoLoaded ? 'opacity-0' : 'opacity-100'}`}
+      />
       <video
+        ref={videoRef}
         className="absolute inset-0 w-full h-full object-cover"
         src="/regulen-drone-footage.mov"
         autoPlay
@@ -23,10 +53,7 @@ export default function Hero() {
           </h1>
           <FadeIn>
             <p className="mt-6 text-xl leading-8">
-              Looking to penetrate new markets with your medical products or
-              devices? We are your end-to-end regulatory partners from initial
-              idea to market approval and throughout your product&apos;s entire
-              lifecycle.
+              Looking to penetrate new markets with your medical products or devices? We are your end-to-end regulatory partners from initial idea to market approval and throughout your product&apos;s entire lifecycle.
             </p>
           </FadeIn>
           <div className="mt-12 flex justify-center">
