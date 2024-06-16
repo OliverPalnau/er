@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
@@ -16,11 +16,22 @@ export default function Hero() {
       setVideoLoaded(true);
     };
 
+    const handlePlay = () => {
+      if (videoRef.current) {
+        videoRef.current.play();
+      }
+    };
+
     const videoElement = videoRef.current;
     if (videoElement) {
       videoElement.addEventListener("loadeddata", handleVideoLoad);
+      document.addEventListener("scroll", handlePlay, { once: true });
+      document.addEventListener("click", handlePlay, { once: true });
+
       return () => {
         videoElement.removeEventListener("loadeddata", handleVideoLoad);
+        document.removeEventListener("scroll", handlePlay);
+        document.removeEventListener("click", handlePlay);
       };
     }
   }, []);
@@ -32,7 +43,9 @@ export default function Hero() {
         alt="Regulen Thumbnail"
         layout="fill"
         objectFit="cover"
-        className={`absolute inset-0 w-full h-full transition-opacity duration-300 ${videoLoaded ? 'opacity-0' : 'opacity-100'}`}
+        className={`absolute inset-0 w-full h-full transition-opacity duration-300 ${
+          videoLoaded ? "opacity-0" : "opacity-100"
+        }`}
       />
       <video
         ref={videoRef}
@@ -53,11 +66,18 @@ export default function Hero() {
           </h1>
           <FadeIn>
             <p className="mt-6 text-xl leading-8">
-              Looking to penetrate new markets with your medical products or devices? We are your end-to-end regulatory partners from initial idea to market approval and throughout your product&apos;s entire lifecycle.
+              Looking to penetrate new markets with your medical products or
+              devices? We are your end-to-end regulatory partners from initial
+              idea to market approval and throughout your product&apos;s entire
+              lifecycle.
             </p>
           </FadeIn>
           <div className="mt-12 flex justify-center">
-            <a href="https://calendly.com/your-calendly-link" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://calendly.com/your-calendly-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Button variant="bookCall" className="flex items-center">
                 <CalendarDays className="mr-2" />
                 Schedule a Call
