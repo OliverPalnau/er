@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import womanInOffice from "../public/images/woman-in-office.jpg";
-import usaSvg from "../public/images/US.svg";
 import chinaSvg from "../public/images/China.svg";
+import usaSvg from "../public/images/US.svg";
+import womanInOffice from "../public/images/woman-in-office.jpg";
 
 export default function Parallax() {
   const usaSvgRef = useRef<HTMLImageElement>(null);
