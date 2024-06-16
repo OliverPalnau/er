@@ -6,8 +6,11 @@ import {
   PhoneIcon,
 } from "@heroicons/react/24/outline";
 import { FadeIn } from "./FadeIn";
+import { useForm, ValidationError } from "@formspree/react";
 
 export default function ContactSection() {
+  const [state, handleSubmit] = useForm("xnqeewbe");
+
   return (
     <div id="contact-section" className="relative isolate bg-white">
       <FadeIn>
@@ -123,8 +126,7 @@ export default function ContactSection() {
             </div>
           </div>
           <form
-            action="#"
-            method="POST"
+            onSubmit={handleSubmit}
             className="px-6 pb-24 pt-20 sm:pb-32 lg:px-8 lg:py-48"
           >
             <div className="mx-auto max-w-xl lg:mr-0 lg:max-w-lg">
@@ -178,6 +180,11 @@ export default function ContactSection() {
                       autoComplete="email"
                       className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
                     />
+                    <ValidationError
+                      prefix="Email"
+                      field="email"
+                      errors={state.errors}
+                    />
                   </div>
                 </div>
                 <div className="sm:col-span-2">
@@ -194,6 +201,11 @@ export default function ContactSection() {
                       id="phone-number"
                       autoComplete="tel"
                       className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                    />
+                    <ValidationError
+                      prefix="Phone Number"
+                      field="phone-number"
+                      errors={state.errors}
                     />
                   </div>
                 </div>
@@ -212,6 +224,11 @@ export default function ContactSection() {
                       className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
                       defaultValue={""}
                     />
+                    <ValidationError
+                      prefix="Message"
+                      field="message"
+                      errors={state.errors}
+                    />
                   </div>
                 </div>
               </div>
@@ -219,10 +236,16 @@ export default function ContactSection() {
                 <button
                   type="submit"
                   className="rounded-md bg-blue-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                  disabled={state.submitting}
                 >
                   Send message
                 </button>
               </div>
+              {state.succeeded && (
+                <p className="mt-4 text-green-600">
+                  Thanks for your message! We&apos;ll be in touch soon.
+                </p>
+              )}
             </div>
           </form>
         </div>

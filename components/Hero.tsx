@@ -48,7 +48,7 @@ export default function Hero() {
   return (
     <div className="relative h-screen">
       {isMobile && (
-        <div className="absolute inset-0 w-full h-full flex items-center justify-center z-10">
+        <div className="absolute inset-0 w-full h-full flex items-center justify-center z-0">
           <Image
             src={thumbnail}
             alt="Regulen Thumbnail"
@@ -56,17 +56,13 @@ export default function Hero() {
             objectFit="cover"
             className="absolute inset-0 w-full h-full"
           />
-          <button
-            onClick={handlePlayButtonClick}
-            className="bg-white text-black p-4 rounded-full z-30"
-          >
-            <Play size={48} />
-          </button>
         </div>
       )}
       <video
         ref={videoRef}
-        className={`absolute inset-0 w-full h-full object-cover ${isMobile ? "hidden" : "block"}`}
+        className={`absolute inset-0 w-full h-full object-cover ${
+          isMobile ? "hidden" : "block"
+        }`}
         src="/regulen-drone-footage.mov"
         autoPlay={!isMobile}
         loop
@@ -74,7 +70,7 @@ export default function Hero() {
         playsInline
         preload="auto"
       />
-      <div className="relative z-20 flex items-center justify-center h-full bg-black bg-opacity-50 px-6 py-24 sm:py-32 lg:px-8">
+      <div className="relative z-20 flex items-center justify-center h-full bg-black bg-opacity-50 px-6 py-14 sm:py-32 lg:px-8">
         <div className="mx-auto max-w-2xl text-center text-white">
           <h1 className="text-4xl font-medium tracking-tight sm:text-6xl">
             Global Pharma Made
