@@ -14,34 +14,29 @@ export default function Parallax() {
   const contentRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const [prevScrollY, setPrevScrollY] = useState(0);
-  const [headingInView, setHeadingInView] = useState(true);
+  const [headingInView, setHeadingInView] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const viewportHeight = window.innerHeight;
 
-      if (sectionRef.current && overlayRef.current && contentRef.current) {
+      if (sectionRef.current && overlayRef.current && contentRef.current && headingRef.current) {
         const sectionTop = sectionRef.current.getBoundingClientRect().top;
         const sectionHeight = sectionRef.current.offsetHeight;
         const contentTop = contentRef.current.getBoundingClientRect().top;
+        const headingTop = headingRef.current.getBoundingClientRect().top;
 
-        if (scrollY > prevScrollY) {
-          // Scrolling down
-          if (contentTop < viewportHeight / 2 && headingInView) {
-            const opacity = Math.min((scrollY - sectionRef.current.offsetTop) / viewportHeight, 0.7);
-            overlayRef.current.style.opacity = opacity.toString();
-          } else {
-            overlayRef.current.style.opacity = '0';
-          }
+        const headingVisibleStart = headingTop + window.scrollY - viewportHeight;
+        const headingVisibleEnd = headingTop + window.scrollY;
+
+        if (scrollY > headingVisibleStart && scrollY < headingVisibleEnd) {
+          const opacity = Math.min((scrollY - headingVisibleStart) / (headingVisibleEnd - headingVisibleStart) / 2, 0.7);
+          overlayRef.current.style.opacity = opacity.toString();
+        } else if (scrollY >= headingVisibleEnd) {
+          overlayRef.current.style.opacity = '0.7';
         } else {
-          // Scrolling up
-          if (!headingInView) {
-            const opacity = Math.min((sectionRef.current.offsetTop - scrollY) / viewportHeight, 0.7);
-            overlayRef.current.style.opacity = opacity.toString();
-          } else {
-            overlayRef.current.style.opacity = '0';
-          }
+          overlayRef.current.style.opacity = '0';
         }
       }
 
