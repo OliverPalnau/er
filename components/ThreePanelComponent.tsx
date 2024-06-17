@@ -123,7 +123,7 @@ export default function ThreePanelComponent() {
         </div>
 
         {activePanel && (
-          <div className="mt-4 mx-auto max-w-5xl lg:mt-4 lg:max-w-5xl pb-8">
+          <div className="mt-4 mx-auto max-w-5xl lg:mt-4 lg:max-w-5xl pb-20 pt-16">
             <div className="bg-gray-100 p-12 shadow-lg rounded-md">
               <h3 className="text-4xl font-medium text-gray-900 mb-8 text-left">
                 {activePanel.title}
