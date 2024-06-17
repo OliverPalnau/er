@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Regulen",
-  description: "Regulen",
+  description: "Regulen - End-to-End regulatory partners from initial idea to market approval for medical products and devices in USA and China."
 };
 
 export default function RootLayout({
