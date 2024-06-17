@@ -68,8 +68,8 @@ export default function ContactSection() {
                 Please email us and we will keep you closely updated on new
                 regions and new additions to the scope of our services.
               </p>
-              <p className="mt-6 text-md leading-8 text-gray-600">
-                Currently, we only service products intended for US & China
+              <p className="mt-6 text-md leading-8 text-blue-500">
+                *Currently, we only service products intended for US & China
                 markets and offer document translations between English and
                 Mandarin Chinese.
               </p>
