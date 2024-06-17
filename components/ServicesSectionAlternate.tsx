@@ -25,9 +25,6 @@ export default function ServicesSectionAlternate() {
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
               <div>
-                <h2 className="text-base font-semibold leading-7 text-blue-600">
-                  {translations[language].servicesSubHeading}
-                </h2>
                 <p className="mt-2 text-3xl font-medium tracking-tight text-gray-900 sm:text-4xl">
                   {translations[language].ourServicesInclude}
                 </p>
