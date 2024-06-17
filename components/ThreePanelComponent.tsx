@@ -1,8 +1,9 @@
 "use client";
 
+import { useLanguage } from "@/context/LanguageContext";
 import { useState } from "react";
 import Image, { StaticImageData } from "next/image";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -12,63 +13,18 @@ import {
 import ImageOne from "@/public/images/image-one.png"; // Replace with your image path
 import ImageTwo from "@/public/images/image-two.png"; // Replace with your image path
 import ImageThree from "@/public/images/image-three.png"; // Replace with your image path
+import { translations } from "@/translations/translations";
 
-interface PanelDetail {
+type PanelDetail = {
   title: string;
   subtitle: string;
   description: string[];
   image: StaticImageData;
-}
-
-const panelDetails: PanelDetail[] = [
-  {
-    title: "Medical Foods",
-    subtitle:
-      "We handle the required registrations, licensing, and product lifecycle management of complete nutrient formulas for:",
-    description: [
-      "Diabetes mellitus",
-      "Respiratory system illness",
-      "Kidney disease",
-      "Oncological conditions",
-      "Liver disease",
-      "Sarcopenia syndrome",
-      "Trauma, infection, surgery, and other stress conditions",
-      "Inflammatory bowel disease",
-      "Food protein allergies",
-      "Refractory epilepsy",
-      "Gastrointestinal malabsorption and pancreatitis",
-      "Fatty acid metabolic abnormality",
-      "Obesity and fat reduction surgery",
-      "And more.",
-    ],
-    image: ImageOne,
-  },
-  {
-    title: "Drugs",
-    subtitle: "We offer and ensure:",
-    description: [
-      "NDA and ANDA filings in the U.S. for new and generic drugs.",
-      "Compilation of detailed information on drug safety, efficacy, labeling, manufacturing, and quality controls for NDAs.",
-      "Bioequivalence to reference drugs for ANDA submissions.",
-      "NDAs in China for various drug categories including chemical drugs, biological products, and traditional Chinese medicines.",
-      "Leveraging of expedited pathways for rare disease and pediatric drugs in China to meet clinical needs and advance treatment availability.",
-    ],
-    image: ImageTwo,
-  },
-  {
-    title: "Medical Devices",
-    subtitle: "We offer and ensure:",
-    description: [
-      "PMAs and 510(k) filings in the U.S. for medical devices.",
-      "Compilation of detailed information on device safety, effectiveness, labeling, manufacturing, and quality controls for PMAs.",
-      "Substantial equivalence to predicate devices for 510k submissions.",
-      "Medical Device Registrations in China for various device categories.",
-    ],
-    image: ImageThree,
-  },
-];
+};
 
 export default function ThreePanelComponent() {
+  const { language } = useLanguage();
+  const panelDetails = translations[language].panelDetails as PanelDetail[];
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const [activePanel, setActivePanel] = useState<PanelDetail | null>(null);
 
@@ -105,23 +61,23 @@ export default function ThreePanelComponent() {
             >
               <div className="relative w-full h-72">
                 <Image
-                  src={panel.image}
+                  src={
+                    index === 0 ? ImageOne : index === 1 ? ImageTwo : ImageThree
+                  }
                   alt={panel.title}
                   layout="fill"
                   objectFit="cover"
                   className="rounded-lg"
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center">
-                  <span className="text-3xl text-white">{panel.title}</span>
-                  <div className="absolute bottom-4  flex flex-col items-center justify-center">
-                    <ChevronDown
-                      className={`h-8 w-8 text-white mt-4 transition-transform duration-300 ${
-                        activePanel?.title === panel.title
-                          ? "rotate-180"
-                          : "rotate-0"
-                      }`}
-                    />
-                  </div>
+                  <span className="text-3xl text-white ">{panel.title}</span>
+                  <ChevronDown
+                    className={`h-8 w-8 text-white mt-4 transition-transform duration-300 ${
+                      activePanel?.title === panel.title
+                        ? "rotate-180"
+                        : "rotate-0"
+                    }`}
+                  />
                 </div>
               </div>
             </div>
@@ -156,7 +112,13 @@ export default function ThreePanelComponent() {
               >
                 <AccordionTrigger className="relative w-full h-48 sm:h-64 overflow-hidden text-left text-lg font-medium text-white focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-75">
                   <Image
-                    src={panel.image}
+                    src={
+                      index === 0
+                        ? ImageOne
+                        : index === 1
+                        ? ImageTwo
+                        : ImageThree
+                    }
                     alt={panel.title}
                     layout="fill"
                     objectFit="cover"

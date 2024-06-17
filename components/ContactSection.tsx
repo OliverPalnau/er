@@ -7,8 +7,11 @@ import {
 } from "@heroicons/react/24/outline";
 import { FadeIn } from "./FadeIn";
 import { useForm, ValidationError } from "@formspree/react";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@//translations/translations"; // Adjust the import path as necessary
 
 export default function ContactSection() {
+  const { language } = useLanguage();
   const [state, handleSubmit] = useForm("xnqeewbe");
 
   return (
@@ -56,22 +59,16 @@ export default function ContactSection() {
                 </svg>
               </div>
               <h2 className="text-4xl font-medium tracking-tight text-gray-900">
-                Contact Us
+                {translations[language].contactHeading}
               </h2>
               <p className="mt-6 text-md leading-8 text-gray-600">
-                We are here to assist you with any questions or inquiries you
-                may have. Whether you are looking for more information about our
-                services, need support, or want to provide feedback, please feel
-                free to get in touch.
+                {translations[language].contactDescription}
               </p>
               <p className="mt-6 text-md leading-8 text-gray-600">
-                Please email us and we will keep you closely updated on new
-                regions and new additions to the scope of our services.
+                {translations[language].contactEmailPrompt}
               </p>
               <p className="mt-6 text-md leading-8 text-blue-500">
-                *Currently, we only service products intended for US & China
-                markets and offer document translations between English and
-                Mandarin Chinese.
+                {translations[language].contactServiceMarkets}
               </p>
               <dl className="mt-10 space-y-4 text-base leading-7 text-gray-600">
                 <div className="flex gap-x-4">
@@ -82,11 +79,7 @@ export default function ContactSection() {
                       aria-hidden="true"
                     />
                   </dt>
-                  <dd>
-                    350 Wireless Blvd.
-                    <br />
-                    Hauppauge, NY 11788
-                  </dd>
+                  <dd>{translations[language].contactAddress}</dd>
                 </div>
                 <div className="flex gap-x-4">
                   <dt className="flex-none">
@@ -119,7 +112,7 @@ export default function ContactSection() {
                     htmlFor="first-name"
                     className="block text-sm font-semibold leading-6 text-gray-900"
                   >
-                    First name
+                    {translations[language].contactInfo}
                   </label>
                   <div className="mt-2.5">
                     <input
@@ -136,7 +129,7 @@ export default function ContactSection() {
                     htmlFor="last-name"
                     className="block text-sm font-semibold leading-6 text-gray-900"
                   >
-                    Last name
+                    {translations[language].email}
                   </label>
                   <div className="mt-2.5">
                     <input
@@ -153,7 +146,7 @@ export default function ContactSection() {
                     htmlFor="email"
                     className="block text-sm font-semibold leading-6 text-gray-900"
                   >
-                    Email
+                    {translations[language].email}
                   </label>
                   <div className="mt-2.5">
                     <input
@@ -175,7 +168,7 @@ export default function ContactSection() {
                     htmlFor="phone-number"
                     className="block text-sm font-semibold leading-6 text-gray-900"
                   >
-                    Phone number
+                    {translations[language].phoneNumber}
                   </label>
                   <div className="mt-2.5">
                     <input
@@ -197,7 +190,7 @@ export default function ContactSection() {
                     htmlFor="message"
                     className="block text-sm font-semibold leading-6 text-gray-900"
                   >
-                    Message
+                    {translations[language].message}
                   </label>
                   <div className="mt-2.5">
                     <textarea
@@ -221,12 +214,12 @@ export default function ContactSection() {
                   className="rounded-md bg-blue-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                   disabled={state.submitting}
                 >
-                  Send message
+                  {translations[language].sendMessage}
                 </button>
               </div>
               {state.succeeded && (
                 <p className="mt-4 text-green-600">
-                  Thanks for your message! We&apos;ll be in touch soon.
+                  {translations[language].thanksMessage}
                 </p>
               )}
             </div>

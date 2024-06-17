@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@/translations/translations"; // Adjust the import path as necessary
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import chinaSvg from "../public/images/China.svg";
@@ -7,6 +9,7 @@ import usaSvg from "../public/images/US.svg";
 import womanInOffice from "../public/images/woman-in-office.jpg";
 
 export default function Parallax() {
+  const { language } = useLanguage();
   const usaSvgRef = useRef<HTMLImageElement>(null);
   const chinaSvgRef = useRef<HTMLImageElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -21,61 +24,79 @@ export default function Parallax() {
       const scrollY = window.scrollY;
       const viewportHeight = window.innerHeight;
 
-      if (sectionRef.current && overlayRef.current && contentRef.current && headingRef.current) {
+      if (
+        sectionRef.current &&
+        overlayRef.current &&
+        contentRef.current &&
+        headingRef.current
+      ) {
         const sectionTop = sectionRef.current.getBoundingClientRect().top;
         const sectionHeight = sectionRef.current.offsetHeight;
         const contentTop = contentRef.current.getBoundingClientRect().top;
         const headingTop = headingRef.current.getBoundingClientRect().top;
 
-        const headingVisibleStart = headingTop + window.scrollY - viewportHeight;
+        const headingVisibleStart =
+          headingTop + window.scrollY - viewportHeight;
         const headingVisibleEnd = headingTop + window.scrollY;
 
         if (scrollY > headingVisibleStart && scrollY < headingVisibleEnd) {
-          const opacity = Math.min((scrollY - headingVisibleStart) / (headingVisibleEnd - headingVisibleStart) / 2, 0.7);
+          const opacity = Math.min(
+            (scrollY - headingVisibleStart) /
+              (headingVisibleEnd - headingVisibleStart) /
+              2,
+            0.7
+          );
           overlayRef.current.style.opacity = opacity.toString();
         } else if (scrollY >= headingVisibleEnd) {
-          overlayRef.current.style.opacity = '0.7';
+          overlayRef.current.style.opacity = "0.7";
         } else {
-          overlayRef.current.style.opacity = '0';
+          overlayRef.current.style.opacity = "0";
         }
       }
 
       if (usaSvgRef.current) {
-        const scale = window.innerWidth < 1024
-          ? Math.min(1 + scrollY / 2000, 1.1)
-          : Math.min(1 + scrollY / 800, 2);
-        const translateY = window.innerWidth < 1024
-          ? Math.min(scrollY / 4, 100)
-          : Math.min(scrollY / 2, 300);
+        const scale =
+          window.innerWidth < 1024
+            ? Math.min(1 + scrollY / 2000, 1.1)
+            : Math.min(1 + scrollY / 800, 2);
+        const translateY =
+          window.innerWidth < 1024
+            ? Math.min(scrollY / 4, 100)
+            : Math.min(scrollY / 2, 300);
         usaSvgRef.current.style.transform = `translateY(${translateY}px) scale(${scale})`;
       }
 
       if (chinaSvgRef.current) {
-        const scale = window.innerWidth < 1024
-          ? Math.min(1 + (scrollY - 800) / 2000, 1.1)
-          : Math.min(1 + (scrollY - 800) / 800, 2);
-        const translateY = window.innerWidth < 1024
-          ? Math.min((scrollY - 800) / 4, 100)
-          : Math.min((scrollY - 800) / 2, 300);
+        const scale =
+          window.innerWidth < 1024
+            ? Math.min(1 + (scrollY - 800) / 2000, 1.1)
+            : Math.min(1 + (scrollY - 800) / 800, 2);
+        const translateY =
+          window.innerWidth < 1024
+            ? Math.min((scrollY - 800) / 4, 100)
+            : Math.min((scrollY - 800) / 2, 300);
         chinaSvgRef.current.style.transform = `translateY(${translateY}px) scale(${scale})`;
       }
 
       setPrevScrollY(scrollY);
     };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        setHeadingInView(entry.isIntersecting);
-        if (entry.isIntersecting) {
-          window.addEventListener("scroll", handleScroll);
-        } else {
-          window.removeEventListener("scroll", handleScroll);
-          if (overlayRef.current && entry.boundingClientRect.top >= 0) {
-            overlayRef.current.style.opacity = '0';
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setHeadingInView(entry.isIntersecting);
+          if (entry.isIntersecting) {
+            window.addEventListener("scroll", handleScroll);
+          } else {
+            window.removeEventListener("scroll", handleScroll);
+            if (overlayRef.current && entry.boundingClientRect.top >= 0) {
+              overlayRef.current.style.opacity = "0";
+            }
           }
-        }
-      });
-    }, { threshold: 0.5 }); // Adjusted threshold for half the viewport height
+        });
+      },
+      { threshold: 0.5 }
+    ); // Adjusted threshold for half the viewport height
 
     if (headingRef.current) {
       observer.observe(headingRef.current);
@@ -108,11 +129,14 @@ export default function Parallax() {
       </div>
 
       {/* Parallax Content */}
-      <div ref={contentRef} className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 space-y-24 pb-32">
+      <div
+        ref={contentRef}
+        className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 space-y-24 pb-32"
+      >
         {/* Heading Section */}
         <div ref={headingRef} className="text-center pt-12">
           <h1 className="text-5xl font-medium tracking-tight sm:text-6xl lg:text-7xl leading-tight">
-            Areas We Serve
+            {translations[language].parallaxHeading}
           </h1>
         </div>
 
@@ -133,21 +157,10 @@ export default function Parallax() {
             </div>
             <div className="usa-text-container flex flex-col justify-center mt-8 lg:mt-0 lg:pl-24">
               <h2 className="text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl leading-tight">
-                United States
+                {translations[language].usaSectionTitle}
               </h2>
               <p className="mt-8 text-lg leading-8">
-                For the US market, we specialize in facilitating New Drug
-                Application (NDA) filings and Abbreviated New Drug Application
-                (ANDA) filings. We ensure that pharmaceutical companies can
-                quickly and efficiently submit their applications for new drugs
-                or generic versions of existing drugs. For NDAs, we meticulously
-                compile comprehensive information on safety, efficacy, labeling,
-                manufacturing processes, and quality controls. When it comes to
-                ANDAs, we focus on ensuring that bioequivalence is demonstrated
-                to reference drugs in your submission. Our goal is to support
-                the continuous evaluation and improvement of the pharmaceutical
-                landscape, helping companies make safe and effective medications
-                accessible to patients across the United States faster.
+                {translations[language].usaSectionDescription}
               </p>
             </div>
           </div>
@@ -170,23 +183,10 @@ export default function Parallax() {
             </div>
             <div className="china-text-container flex flex-col justify-center mt-8 lg:mt-0 lg:pl-24">
               <h2 className="text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl leading-tight">
-                China
+                {translations[language].chinaSectionTitle}
               </h2>
               <p className="mt-8 text-lg leading-8">
-                For the Chinese market, we specialize in facilitating New Drug
-                Applications (NDAs). Our expertise ensures that pharmaceutical
-                companies can efficiently submit their applications for new
-                chemical drugs, new biological products, gene and cell
-                therapies, new vaccines, and new traditional Chinese medicines
-                approved for the first time in mainland China. Notably, China
-                set a new record in 2023 by approving the highest number of new
-                drugs in a single year—104 in total. These approvals encompassed
-                a wide range of therapeutic areas, including oncology drugs,
-                anti-infective drugs, and central nervous system (CNS) drugs.
-                Additionally, we make sure that companies can effectively use
-                the expedited regulatory pathways for rare disease drugs and
-                pediatric drugs, addressing unmet clinical needs and ensuring
-                that innovative treatments reach patients efficiently.
+                {translations[language].chinaSectionDescription}
               </p>
             </div>
           </div>

@@ -2,7 +2,6 @@ import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import HeroTwo from "@/components/HeroTwo";
 import Parallax from "@/components/Parralax";
 import ServicesSectionAlternate from "@/components/ServicesSectionAlternate";
 import ThreePanelComponent from "@/components/ThreePanelComponent";
