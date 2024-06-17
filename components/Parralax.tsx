@@ -1,7 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
-import { translations } from "@/translations/translations"; // Adjust the import path as necessary
+import { translations } from "@/translations/translations"; 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import chinaSvg from "../public/images/China.svg";
