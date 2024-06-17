@@ -59,25 +59,24 @@ export default function ThreePanelComponent() {
               className="relative cursor-pointer"
               onClick={() => handlePanelClick(panel)}
             >
-              <div className="relative w-full h-72">
-                <Image
-                  src={
-                    index === 0 ? ImageOne : index === 1 ? ImageTwo : ImageThree
-                  }
-                  alt={panel.title}
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-lg"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center">
-                  <span className="text-3xl text-white ">{panel.title}</span>
-                  <ChevronDown
-                    className={`h-8 w-8 text-white mt-4 transition-transform duration-300 ${
-                      activePanel?.title === panel.title
-                        ? "rotate-180"
-                        : "rotate-0"
-                    }`}
+              <div className={`relative w-full h-72 ${activePanel?.title === panel.title ? "bg-white" : ""}`}>
+                {activePanel?.title !== panel.title && (
+                  <Image
+                    src={index === 0 ? ImageOne : index === 1 ? ImageTwo : ImageThree}
+                    alt={panel.title}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-lg"
                   />
+                )}
+                <div className={`absolute inset-0 ${activePanel?.title === panel.title ? "bg-white" : "bg-black bg-opacity-50"} flex flex-col items-center justify-center`}>
+                  <span className={`text-3xl ${activePanel?.title === panel.title ? "text-black" : "text-white"}`}>
+                    {panel.title}
+                  </span>
+                  <div className="absolute bottom-4 ">
+                  <ChevronDown
+                    className={`h-8 w-8 mt-4 transition-transform duration-300 ${activePanel?.title === panel.title ? "text-black rotate-180" : "text-white rotate-0"}`}
+                  /></div>
                 </div>
               </div>
             </div>
@@ -112,13 +111,7 @@ export default function ThreePanelComponent() {
               >
                 <AccordionTrigger className="relative w-full h-48 sm:h-64 overflow-hidden text-left text-lg font-medium text-white focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-75">
                   <Image
-                    src={
-                      index === 0
-                        ? ImageOne
-                        : index === 1
-                        ? ImageTwo
-                        : ImageThree
-                    }
+                    src={index === 0 ? ImageOne : index === 1 ? ImageTwo : ImageThree}
                     alt={panel.title}
                     layout="fill"
                     objectFit="cover"
