@@ -87,7 +87,7 @@ export default function ThreePanelComponent() {
   const renderDescription = (description: string[]) => {
     return description.map((desc, index) => (
       <div key={index} className="flex items-start space-x-2 mt-3">
-        <div className="h-2 w-2 bg-black mt-2 flex-none"></div>
+        <div className="h-1 w-1 bg-black mt-2 flex-none"></div>
         <p className="text-base leading-7 text-gray-600">{desc}</p>
       </div>
     ));
@@ -113,11 +113,9 @@ export default function ThreePanelComponent() {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center">
                   <span className="text-3xl text-white">{panel.title}</span>
-                  {activePanel?.title === panel.title ? (
-                    <ChevronUp className="h-8 w-8 text-white mt-4" />
-                  ) : (
-                    <ChevronDown className="h-8 w-8 text-white mt-4" />
-                  )}
+                  <ChevronUp
+                    className={`h-8 w-8 text-white mt-4 transition-transform duration-300 ${activePanel?.title === panel.title ? 'rotate-180' : 'rotate-0'}`}
+                  />
                 </div>
               </div>
             </div>
