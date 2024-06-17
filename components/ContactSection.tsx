@@ -12,7 +12,7 @@ import { translations } from "@//translations/translations"; // Adjust the impor
 
 export default function ContactSection() {
   const { language } = useLanguage();
-  const [state, handleSubmit] = useForm("xnqeewbe");
+  const [state, handleSubmit] = useForm("xrgnnjjv");
 
   return (
     <div id="contact-section" className="relative isolate bg-white">
@@ -129,7 +129,7 @@ export default function ContactSection() {
                     htmlFor="last-name"
                     className="block text-sm font-semibold leading-6 text-gray-900"
                   >
-                    {translations[language].email}
+                    {translations[language].lastName}
                   </label>
                   <div className="mt-2.5">
                     <input

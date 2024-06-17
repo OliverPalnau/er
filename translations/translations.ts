@@ -11,6 +11,7 @@ type Translations = {
     documentTranslations: string;
     contactInfo: string;
     email: string;
+    lastName: string;
     phoneNumber: string;
     message: string;
     sendMessage: string;
@@ -48,7 +49,8 @@ export const translations: Translations = {
     emailPrompt: 'Please email us and we will keep you closely updated on new regions and new additions to the scope of our services.',
     serviceMarkets: 'Currently, we only service products intended for US & China markets and offer document translations between English and Mandarin Chinese.',
     documentTranslations: 'Performing technical document translations.',
-    contactInfo: 'Contact Information',
+    contactInfo: 'First Name',
+    lastName: 'Last Name',
     email: 'Email',
     phoneNumber: 'Phone Number',
     message: 'Message',
@@ -139,6 +141,7 @@ export const translations: Translations = {
     documentTranslations: '进行技术文件翻译。',
     contactInfo: '联系信息',
     email: '电子邮件',
+    lastName: '姓',
     phoneNumber: '电话号码',
     message: '信息',
     sendMessage: '发送信息',
