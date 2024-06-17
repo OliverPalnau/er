@@ -113,9 +113,15 @@ export default function ThreePanelComponent() {
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center">
                   <span className="text-3xl text-white">{panel.title}</span>
-                  <ChevronUp
-                    className={`h-8 w-8 text-white mt-4 transition-transform duration-300 ${activePanel?.title === panel.title ? 'rotate-180' : 'rotate-0'}`}
-                  />
+                  <div className="absolute bottom-4  flex flex-col items-center justify-center">
+                    <ChevronDown
+                      className={`h-8 w-8 text-white mt-4 transition-transform duration-300 ${
+                        activePanel?.title === panel.title
+                          ? "rotate-180"
+                          : "rotate-0"
+                      }`}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,17 +1,24 @@
 "use client";
 
 import { Dialog, DialogPanel } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import { useLanguage } from "@/context/LanguageContext";
 import Image from "next/image";
 import { useState } from "react";
 import logo from "@/public/images/regulen-logo-white.svg";
 import usFlag from "@/public/images/us-flag.png";
 import cnFlag from "@/public/images/cn-flag.png";
-
+import { ChevronDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { translations } from "@/translations/translations";
 
 export default function Header() {
+  const { language, switchLanguage } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
+
+  const handleLanguageSwitch = (lang: string) => {
+    switchLanguage(lang);
+    setLanguageMenuOpen(false);
+  };
 
   return (
     <header className="bg-black relative z-50">
@@ -36,7 +43,7 @@ export default function Header() {
             href="#contact-section"
             className="rounded-md bg-[#eff9ec] px-8 py-3 text-xs font-base text-black shadow-sm hover:bg-[#e0f0da] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
-            CONTACT
+            {translations[language].contact}
           </a>
           <div className="relative">
             <button
@@ -45,19 +52,22 @@ export default function Header() {
               onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
             >
               <Image
-                src={usFlag}
-                alt="English"
+                src={language === "en" ? usFlag : cnFlag}
+                alt={language === "en" ? "English" : "中文"}
                 width={24}
                 height={24}
                 className="h-6 w-6 rounded-full"
               />
-              <ChevronDownIcon className="h-5 w-5 text-white" aria-hidden="true" />
+              <ChevronDownIcon
+                className="h-5 w-5 text-white"
+                aria-hidden="true"
+              />
             </button>
             {languageMenuOpen && (
               <div className="absolute right-0 mt-2 w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
                 <div className="py-1">
                   <button
-                    onClick={() => setLanguageMenuOpen(false)}
+                    onClick={() => handleLanguageSwitch("en")}
                     className="flex items-center gap-x-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     <Image
@@ -70,7 +80,7 @@ export default function Header() {
                     <span>English</span>
                   </button>
                   <button
-                    onClick={() => setLanguageMenuOpen(false)}
+                    onClick={() => handleLanguageSwitch("zh")}
                     className="flex items-center gap-x-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     <Image
