@@ -42,7 +42,7 @@ export default function ServicesSectionAlternate() {
     return (
       <>
         {parts[0]}
-        <Highlight ref={highlightRef} className="text-black dark:text-white">
+        <Highlight ref={highlightRef} className="text-black dark:text-white mt-4 mb-4">
           {lifecycleTranslation}
         </Highlight>
         {parts[1]}
