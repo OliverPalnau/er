@@ -1,12 +1,40 @@
 "use client";
 
+import { AnimatedText } from "@/components/AnimatedText"; // Import the AnimatedText component
 import { useLanguage } from "@/context/LanguageContext";
-import { translations } from "@/translations/translations"; 
+import { translations } from "@/translations/translations";
+import { motion, useAnimation, Variants } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import chinaSvg from "../public/images/China.svg";
 import usaSvg from "../public/images/US.svg";
 import womanInOffice from "../public/images/woman-in-office.jpg";
+
+const headingVariants: Variants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: "easeOut" },
+  },
+};
+
+const sectionVariants: Variants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: "easeOut", staggerChildren: 0.3 },
+  },
+};
+
+const fadeInVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.8, ease: "easeOut" },
+  },
+};
 
 export default function Parallax() {
   const { language } = useLanguage();
@@ -18,6 +46,7 @@ export default function Parallax() {
   const headingRef = useRef<HTMLDivElement>(null);
   const [prevScrollY, setPrevScrollY] = useState(0);
   const [headingInView, setHeadingInView] = useState(false);
+  const controls = useAnimation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -87,6 +116,7 @@ export default function Parallax() {
           setHeadingInView(entry.isIntersecting);
           if (entry.isIntersecting) {
             window.addEventListener("scroll", handleScroll);
+            controls.start("visible");
           } else {
             window.removeEventListener("scroll", handleScroll);
             if (overlayRef.current && entry.boundingClientRect.top >= 0) {
@@ -106,7 +136,7 @@ export default function Parallax() {
       window.removeEventListener("scroll", handleScroll);
       observer.disconnect();
     };
-  }, [prevScrollY, headingInView]);
+  }, [prevScrollY, headingInView, controls]);
 
   return (
     <div className="relative bg-black text-white min-h-screen">
@@ -135,13 +165,20 @@ export default function Parallax() {
       >
         {/* Heading Section */}
         <div ref={headingRef} className="text-center pt-12">
-          <h1 className="text-5xl font-medium tracking-tight sm:text-6xl lg:text-7xl leading-tight">
-            {translations[language].parallaxHeading}
-          </h1>
+          <AnimatedText
+            text={translations[language].parallaxHeading}
+            el="h1"
+            className="text-5xl font-medium tracking-tight sm:text-6xl lg:text-7xl leading-tight gradient-text"
+          />
         </div>
 
         {/* USA Section */}
-        <section className="parallax-section py-24 sm:py-32 lg:px-8">
+        <motion.section
+          initial="hidden"
+          animate={controls}
+          variants={sectionVariants}
+          className="parallax-section py-24 sm:py-32 lg:px-8"
+        >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
             <div className="flex justify-center lg:justify-start relative">
               <div className="usa-svg-container">
@@ -156,18 +193,30 @@ export default function Parallax() {
               </div>
             </div>
             <div className="usa-text-container flex flex-col justify-center mt-8 lg:mt-0 lg:pl-24">
-              <h2 className="text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl leading-tight">
-                {translations[language].usaSectionTitle}
-              </h2>
-              <p className="mt-8 text-lg leading-8">
+              <AnimatedText
+                text={translations[language].usaSectionTitle}
+                el="h2"
+                className="text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl leading-tight shadow-text"
+              />
+              <motion.p
+                initial="hidden"
+                animate="visible"
+                variants={fadeInVariants}
+                className="mt-8 text-lg leading-8"
+              >
                 {translations[language].usaSectionDescription}
-              </p>
+              </motion.p>
             </div>
           </div>
-        </section>
+        </motion.section>
 
         {/* China Section */}
-        <section className="parallax-section py-24 sm:py-32 lg:px-8">
+        <motion.section
+          initial="hidden"
+          animate={controls}
+          variants={sectionVariants}
+          className="parallax-section py-24 sm:py-32 lg:px-8"
+        >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
             <div className="flex justify-center lg:justify-start relative">
               <div className="china-svg-container">
@@ -182,15 +231,22 @@ export default function Parallax() {
               </div>
             </div>
             <div className="china-text-container flex flex-col justify-center mt-8 lg:mt-0 lg:pl-24">
-              <h2 className="text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl leading-tight">
-                {translations[language].chinaSectionTitle}
-              </h2>
-              <p className="mt-8 text-lg leading-8">
+              <AnimatedText
+                text={translations[language].chinaSectionTitle}
+                el="h2"
+                className="text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl leading-tight shadow-text"
+              />
+              <motion.p
+                initial="hidden"
+                animate="visible"
+                variants={fadeInVariants}
+                className="mt-8 text-lg leading-8"
+              >
                 {translations[language].chinaSectionDescription}
-              </p>
+              </motion.p>
             </div>
           </div>
-        </section>
+        </motion.section>
       </div>
 
       {/* Custom CSS for Parallax Effect */}
@@ -208,6 +264,14 @@ export default function Parallax() {
         .usa-image,
         .china-image {
           transition: transform 0.1s ease-out;
+        }
+        .gradient-text {
+          background: linear-gradient(90deg, #ff8a00, #e52e71);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        .shadow-text {
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
         }
         @media (max-width: 1024px) {
           .usa-svg-container,

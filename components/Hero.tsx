@@ -3,7 +3,8 @@
 import { useLanguage } from "@/context/LanguageContext";
 import ImageFour from "@/public/images/regulen-image-four.jpg";
 import ImageThree from "@/public/images/regulen-image-three.jpg";
-import ImageTwo from "@/public/images/regulen-image-two.jpg";
+import ImageTwo from "@/public/images/regulen-image-three.jpg";
+import ImageOne from "@/public/images/thumbnail-regulen.png";
 import { translations } from "@/translations/translations";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -48,7 +49,7 @@ export default function Hero() {
     },
   };
 
-  const images = [ImageTwo.src, ImageThree.src, ImageFour.src];
+  const images = [ImageOne.src, ImageThree.src, ImageFour.src, ImageTwo.src];
 
   return (
     <div className="relative h-screen overflow-hidden">

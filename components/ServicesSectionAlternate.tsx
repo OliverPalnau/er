@@ -8,6 +8,7 @@ import { CheckIcon } from "@heroicons/react/20/solid";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { FadeInStagger } from "./FadeIn";
+import { AnimatedText } from "./AnimatedText";
 
 const staggerContainer = {
   hidden: { opacity: 0 },
@@ -76,7 +77,7 @@ export default function ServicesSectionAlternate() {
                 duration: 0.5,
                 ease: [0.4, 0.0, 0.2, 1],
               }}
-              className="text-2xl px-4 md:text-4xl lg:text-5xl font-bold text-neutral-700 dark:text-white max-w-full leading-relaxed lg:leading-snug text-center mx-auto"
+              className="text-4xl px-4 md:text-4xl lg:text-6xl font-bold text-neutral-700 dark:text-white max-w-full leading-relaxed lg:leading-snug text-center mx-auto"
             >
               {highlightText(words)}
             </motion.h1>
@@ -110,17 +111,11 @@ export default function ServicesSectionAlternate() {
               className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3"
             >
               <div>
-                <motion.p
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={controls}
-                  variants={{
-                    visible: { opacity: 1, x: 0 },
-                  }}
-                  transition={{ duration: 0.5, delay: 0.6 }}
-                  className="mt-2 text-3xl font-medium tracking-tight text-gray-900 sm:text-4xl"
-                >
-                  {translations[language].servicesDescription}
-                </motion.p>
+                <AnimatedText
+                  text={translations[language].servicesDescription}
+                  el="h1"
+                  className="  leading-tight gradient-text mt-2 text-3xl font-medium tracking-tight text-gray-900 sm:text-4xl"
+                />
               </div>
               <motion.dl
                 className="col-span-2 grid grid-cols-1 gap-x-8 gap-y-10 text-base leading-7 text-gray-600 sm:grid-cols-2 lg:gap-y-16"
@@ -151,7 +146,7 @@ export default function ServicesSectionAlternate() {
                     >
                       <dt className="font-semibold text-blue-600 group-hover:text-blue-700">
                         <CheckIcon
-                          className="absolute left-0 top-1 h-5 w-5 text-blue-500 transform group-hover:rotate-12 transition-transform duration-300"
+                          className="absolute left-0 top-5 h-5 w-5 text-blue-500 transform group-hover:rotate-12 transition-transform duration-300"
                           aria-hidden="true"
                         />
                         {service.name}
