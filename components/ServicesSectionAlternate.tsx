@@ -63,7 +63,7 @@ export default function ServicesSectionAlternate() {
   }, [inView, highlightInView, controls, highlightControls]);
 
   return (
-    <div ref={sectionRef} className="w-full">
+    <div ref={sectionRef} className="w-full overflow-hidden">
       <div className="border-b-2 border-blue-500 px-6 py-10 sm:py-10 lg:px-8 relative z-10 w-full">
         <div className="mx-auto max-w-9xl text-center w-full">
           <HeroHighlight containerClassName="w-full">
@@ -84,24 +84,25 @@ export default function ServicesSectionAlternate() {
           </HeroHighlight>
         </div>
       </div>
-      <div className="relative z-70 bg-white py-6">
-        <div className="relative whitespace-nowrap py-4 bg-white z-50">
+      <div className="relative z-70 bg-white py-6 overflow-hidden">
+        <div className="relative py-4 bg-white z-50 overflow-hidden">
           <motion.div
-            className="absolute whitespace-nowrap text-6xl lg:text-9xl font-bold z-50"
+            className="text-6xl lg:text-9xl font-bold"
             animate={{ x: ["100%", "-100%"] }}
             transition={{
               repeat: Infinity,
               duration: 15,
               ease: "linear",
             }}
+            style={{ whiteSpace: "nowrap" }}
           >
-            <span className="text-outline text-transparent mx-8">
+            <span className="text-outline text-transparent">
               {translations[language].ourServicesInclude}
             </span>
           </motion.div>
         </div>
       </div>
-      <div className="relative bg-white py-24 sm:py-32">
+      <div className="relative bg-white py-24 sm:py-32 overflow-hidden">
         <FadeInStagger>
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <motion.div
@@ -114,7 +115,7 @@ export default function ServicesSectionAlternate() {
                 <AnimatedText
                   text={translations[language].servicesDescription}
                   el="h1"
-                  className="  leading-tight gradient-text mt-2 text-3xl font-medium tracking-tight text-gray-900 sm:text-4xl"
+                  className="leading-tight gradient-text mt-2 text-3xl font-medium tracking-tight text-gray-900 sm:text-4xl"
                 />
               </div>
               <motion.dl
@@ -142,16 +143,16 @@ export default function ServicesSectionAlternate() {
                       initial="hidden"
                       animate={serviceControls}
                       variants={fadeInUp}
-                      className="relative pl-9 group p-4 rounded-lg transform hover:scale-105 transition-transform duration-300"
+                      className="relative flex items-start pl-9 group p-4 rounded-lg transform hover:scale-105 transition-transform duration-300"
                     >
-                      <dt className="font-semibold text-blue-600 group-hover:text-blue-700">
+                      <dt className="flex items-center font-semibold text-blue-600 group-hover:text-blue-700">
                         <CheckIcon
-                          className="absolute left-0 top-5 h-5 w-5 text-blue-500 transform group-hover:rotate-12 transition-transform duration-300"
+                          className="mr-2 h-5 w-5 text-blue-500 transform group-hover:rotate-12 transition-transform duration-300"
                           aria-hidden="true"
                         />
                         {service.name}
                       </dt>
-                      <dd className="mt-2 group-hover:text-gray-900 transition-colors duration-300">
+                      <dd className="mt-2 ml-7 group-hover:text-gray-900 transition-colors duration-300">
                         {service.description}
                       </dd>
                     </motion.div>
