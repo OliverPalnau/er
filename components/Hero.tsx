@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import thumbnail from "@/public/images/thumbnail-regulen.png";
 import { translations } from "@/translations/translations";
+import { motion } from "framer-motion";
+import Typed, { ReactTyped } from "react-typed";
 
 export default function Hero() {
   const { language } = useLanguage();
@@ -28,6 +30,11 @@ export default function Hero() {
     if (videoRef.current) {
       videoRef.current.play();
     }
+  };
+
+  const paragraphVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 1, ease: "easeOut" } },
   };
 
   return (
@@ -55,13 +62,23 @@ export default function Hero() {
         />
       )}
       <div className="relative z-20 flex items-center justify-center h-full bg-black bg-opacity-50 px-6 py-24 sm:py-32 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center text-white">
-          <h1 className="text-4xl font-medium tracking-tight sm:text-6xl">
-            {translations[language].globalPharma}
+        <div className="mx-auto max-w-5xl text-center text-white">
+          <h1 className="text-4xl font-medium tracking-tight sm:text-8xl">
+            <ReactTyped
+              strings={[translations[language].globalPharma]}
+              typeSpeed={50}
+              startDelay={300}
+              showCursor={false}
+            />
           </h1>
-          <p className="mt-6 text-xl leading-8">
+          <motion.p
+            className="mt-6 text-xl leading-8"
+            initial="hidden"
+            animate="visible"
+            variants={paragraphVariants}
+          >
             {translations[language].heroDescription}
-          </p>
+          </motion.p>
         </div>
       </div>
     </div>

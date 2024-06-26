@@ -1,54 +1,181 @@
 "use client";
 
+import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 import { useLanguage } from "@/context/LanguageContext";
-import { CheckIcon } from "@heroicons/react/20/solid";
-import { FadeIn } from "./FadeIn";
 import { translations } from "@/translations/translations";
+import { CheckIcon } from "@heroicons/react/20/solid";
+import { motion, useAnimation } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { FadeIn, FadeInStagger } from "./FadeIn";
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
 
 export default function ServicesSectionAlternate() {
   const { language } = useLanguage();
   const serviceTranslations = translations[language].serviceItems;
+  const words = translations[language].servicesHeading;
+  const controls = useAnimation();
+  const highlightControls = useAnimation();
+  const sectionRef = useRef(null);
+  const [inView, setInView] = useState(false);
+  const [highlightInView, setHighlightInView] = useState(false);
+  const highlightRef = useRef(null);
+
+  const highlightText = (text: string) => {
+    const parts = text.split("entire lifecycle.");
+    return (
+      <>
+        {parts[0]}
+        <Highlight ref={highlightRef} className="text-black dark:text-white">
+          entire lifecycle.
+        </Highlight>
+        {parts[1]}
+      </>
+    );
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          controls.start("visible");
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    const highlightObserver = new IntersectionObserver(
+      ([entry]) => {
+        setHighlightInView(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          highlightControls.start({
+            backgroundColor: "#00f",
+            transition: { duration: 0.5 },
+          });
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (highlightRef.current) {
+      highlightObserver.observe(highlightRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+      if (highlightRef.current) {
+        highlightObserver.unobserve(highlightRef.current);
+      }
+    };
+  }, [controls, highlightControls]);
 
   return (
-    <div>
-      <div className="bg-gray-100 px-6 py-24 sm:py-32 lg:px-8">
-        <FadeIn>
-          <div className="mx-auto max-w-5xl text-center">
-            <h2 className="text-4xl font-medium tracking-tight text-black sm:text-5xl lg:text-6xl leading-tight">
-              {translations[language].servicesHeading}
-            </h2>
-          </div>
-        </FadeIn>
+    <div ref={sectionRef}>
+      <div className="border-b-2 border-cyan-500 px-6 py-10 sm:py-10 lg:px-8 relative z-10">
+        <div className="mx-auto max-w-5xl text-center">
+          <HeroHighlight>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={controls}
+              variants={{
+                visible: { opacity: 1, y: [20, -5, 0] },
+              }}
+              transition={{
+                duration: 0.5,
+                ease: [0.4, 0.0, 0.2, 1],
+              }}
+              className="text-2xl px-4 md:text-4xl lg:text-5xl font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto "
+            >
+              {highlightText(words)}
+            </motion.h1>
+          </HeroHighlight>
+        </div>
       </div>
-      <div className="bg-white py-24 sm:py-32">
-        <FadeIn>
+      <div className="relative z-70 bg-white py-6">
+        <div className="relative whitespace-nowrap py-4 bg-white z-50">
+          <motion.div
+            className="absolute whitespace-nowrap text-6xl lg:text-9xl font-bold z-50"
+            animate={{ x: ["100%", "-100%"] }}
+            transition={{
+              repeat: Infinity,
+              duration: 15,
+              ease: "linear",
+            }}
+          >
+            <span className="text-outline text-transparent mx-8">
+              {translations[language].ourServicesInclude}
+            </span>
+          </motion.div>
+        </div>
+      </div>
+      <div className="relative bg-white py-24 sm:py-32">
+        <FadeInStagger>
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+            <motion.div
+              initial="hidden"
+              animate={controls}
+              variants={staggerContainer}
+              className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3"
+            >
               <div>
-                <p className="mt-2 text-3xl font-medium tracking-tight text-gray-900 sm:text-4xl">
-                  {translations[language].ourServicesInclude}
-                </p>
-                <p className="mt-6 text-base leading-7 text-gray-600">
+                <motion.p
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={controls}
+                  variants={{
+                    visible: { opacity: 1, x: 0 },
+                  }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                  className="mt-2 text-3xl font-medium tracking-tight text-gray-900 sm:text-4xl"
+                >
                   {translations[language].servicesDescription}
-                </p>
+                </motion.p>
               </div>
-              <dl className="col-span-2 grid grid-cols-1 gap-x-8 gap-y-10 text-base leading-7 text-gray-600 sm:grid-cols-2 lg:gap-y-16">
+              <motion.dl
+                className="col-span-2 grid grid-cols-1 gap-x-8 gap-y-10 text-base leading-7 text-gray-600 sm:grid-cols-2 lg:gap-y-16"
+                variants={staggerContainer}
+              >
                 {serviceTranslations.map((service, index) => (
-                  <div key={index} className="relative pl-9">
-                    <dt className="font-semibold text-gray-900">
+                  <motion.div
+                    key={index}
+                    variants={fadeInUp}
+                    className="relative pl-9 group p-4 rounded-lg transform hover:scale-105 transition-transform duration-300"
+                  >
+                    <dt className="font-semibold text-cyan-600 group-hover:text-cyan-700">
                       <CheckIcon
-                        className="absolute left-0 top-1 h-5 w-5 text-blue-500"
+                        className="absolute left-0 top-1 h-5 w-5 text-cyan-500 transform group-hover:rotate-12 transition-transform duration-300"
                         aria-hidden="true"
                       />
                       {service.name}
                     </dt>
-                    <dd className="mt-2">{service.description}</dd>
-                  </div>
+                    <dd className="mt-2 group-hover:text-gray-900 transition-colors duration-300">
+                      {service.description}
+                    </dd>
+                  </motion.div>
                 ))}
-              </dl>
-            </div>
+              </motion.dl>
+            </motion.div>
           </div>
-        </FadeIn>
+        </FadeInStagger>
       </div>
     </div>
   );

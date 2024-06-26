@@ -9,6 +9,7 @@ import usFlag from "@/public/images/us-flag.png";
 import cnFlag from "@/public/images/cn-flag.png";
 import { ChevronDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { translations } from "@/translations/translations";
+import { Button } from "./ui/moving-border";
 
 export default function Header() {
   const { language, switchLanguage } = useLanguage();
@@ -39,12 +40,9 @@ export default function Header() {
           </a>
         </div>
         <div className="flex flex-1 items-center justify-end gap-x-6">
-          <a
-            href="#contact-section"
-            className="rounded-md bg-[#eff9ec] px-8 py-3 text-xs font-base text-black shadow-sm hover:bg-[#e0f0da] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-          >
+          <Button className="text-xs font-base" borderRadius="1.75rem">
             {translations[language].contact}
-          </a>
+          </Button>
           <div className="relative">
             <button
               type="button"

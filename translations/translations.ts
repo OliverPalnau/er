@@ -42,7 +42,7 @@ export const translations: Translations = {
   en: {
     contact: 'CONTACT',
     areasWeServe: 'Areas We Serve',
-    globalPharma: 'Global Pharma Made Fast & Simple',
+    globalPharma: 'Global Pharma Made Fast And Simple',
     heroDescription: 'Looking to penetrate new markets with your medical products or devices? We are your end-to-end regulatory partners from initial idea to market approval and throughout your product\'s entire lifecycle.',
     contactUs: 'Contact Us',
     assistingQuestions: 'We are here to assist you with any questions or inquiries you may have. Whether you are looking for more information about our services, need support, or want to provide feedback, please feel free to get in touch.',
@@ -59,7 +59,7 @@ export const translations: Translations = {
     address: 'Address',
     home: 'Home',
     rights: 'All rights reserved.',
-    servicesHeading: 'All-inclusive regulatory management services throughout your product’s entire lifecycle.',
+    servicesHeading: 'All-inclusive regulatory management services throughout your product’s ',
     servicesSubHeading: 'Serving USA and China*',
     servicesDescription: 'We provide a wide range of services to help you navigate the regulatory landscape and ensure compliance with industry standards.',
     ourServicesInclude: 'Our Services Include:',

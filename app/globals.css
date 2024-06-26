@@ -101,3 +101,36 @@
     animation: rotateUp 0.3s forwards;
   }
   
+  .text-outline {
+    -webkit-text-stroke: 1px rgb(0, 156, 156);
+    color: transparent;
+  }
+
+  /* 3d-card.css */
+.card-container {
+  perspective: 1000px;
+}
+
+.card-body {
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+
+.card-item {
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+
+.card-body:hover .card-item:nth-child(1) {
+  transform: translateZ(50px);
+}
+
+.card-body:hover .card-item:nth-child(2) {
+  transform: translateZ(60px);
+}
+
+.card-body:hover .card-item:nth-child(3) {
+  transform: translateZ(100px);
+}
+
+  
