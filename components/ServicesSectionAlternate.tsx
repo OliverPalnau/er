@@ -42,7 +42,10 @@ export default function ServicesSectionAlternate() {
     return (
       <>
         {parts[0]}
-        <Highlight ref={highlightRef} className="text-black dark:text-white mt-4 mb-4">
+        <Highlight
+          ref={highlightRef}
+          className="text-black dark:text-white mt-4 mb-4"
+        >
           {lifecycleTranslation}
         </Highlight>
         {parts[1]}
@@ -145,16 +148,20 @@ export default function ServicesSectionAlternate() {
                       variants={fadeInUp}
                       className="relative flex items-start pl-9 group p-4 rounded-lg transform hover:scale-105 transition-transform duration-300"
                     >
-                      <dt className="flex items-center font-semibold text-blue-600 group-hover:text-blue-700">
+                      <dt className="flex-shrink-0">
                         <CheckIcon
-                          className="mr-2 h-5 w-5 text-blue-500 transform group-hover:rotate-12 transition-transform duration-300"
+                          className="mr-2 h-6 w-6 text-blue-500"
                           aria-hidden="true"
                         />
-                        {service.name}
                       </dt>
-                      <dd className="mt-2 ml-7 group-hover:text-gray-900 transition-colors duration-300">
-                        {service.description}
-                      </dd>
+                      <div className="ml-4">
+                        <dt className="text-lg leading-6 font-medium text-gray-900">
+                          {service.name}
+                        </dt>
+                        <dd className="mt-2 text-base text-gray-500">
+                          {service.description}
+                        </dd>
+                      </div>
                     </motion.div>
                   );
                 })}
