@@ -1,12 +1,14 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import thumbnail from "@/public/images/thumbnail-regulen.png";
+import ImageFour from "@/public/images/regulen-image-four.jpg";
+import ImageThree from "@/public/images/regulen-image-three.jpg";
+import ImageTwo from "@/public/images/regulen-image-two.jpg";
 import { translations } from "@/translations/translations";
 import { motion } from "framer-motion";
-import Typed, { ReactTyped } from "react-typed";
+import { useEffect, useRef, useState } from "react";
+import { ReactTyped } from "react-typed";
+import { ImagesSlider } from "./ui/images-slider";
 
 export default function Hero() {
   const { language } = useLanguage();
@@ -32,22 +34,42 @@ export default function Hero() {
     }
   };
 
-  const paragraphVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 1, ease: "easeOut" } },
+  const headingVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } },
   };
 
+  const paragraphVariants = {
+    hidden: { opacity: 0, y: 100 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 1, delay: 0.5, ease: "easeOut" },
+    },
+  };
+
+  const images = [ImageTwo.src, ImageThree.src, ImageFour.src];
+
   return (
-    <div className="relative h-screen">
+    <div className="relative h-screen overflow-hidden">
       {isMobile ? (
         <div className="absolute inset-0 w-full h-full flex items-center justify-center z-0">
-          <Image
-            src={thumbnail}
-            alt="Regulen Thumbnail"
-            layout="fill"
-            objectFit="cover"
-            className="absolute inset-0 w-full h-full"
-          />
+          <ImagesSlider className="h-full w-full" images={images}>
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: -80,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                duration: 0.6,
+              }}
+              className="z-50 flex flex-col justify-center items-center"
+            ></motion.div>
+          </ImagesSlider>
         </div>
       ) : (
         <video
@@ -61,16 +83,21 @@ export default function Hero() {
           preload="auto"
         />
       )}
-      <div className="relative z-20 flex items-center justify-center h-full bg-black bg-opacity-50 px-6 py-24 sm:py-32 lg:px-8">
+      <div className="absolute inset-0 flex items-center justify-center h-full bg-black bg-opacity-50 px-6 py-16 sm:py-24 lg:px-8">
         <div className="mx-auto max-w-5xl text-center text-white">
-          <h1 className="text-4xl font-medium tracking-tight sm:text-8xl">
+          <motion.h1
+            className="text-4xl font-medium tracking-tight sm:text-8xl"
+            initial="hidden"
+            animate="visible"
+            variants={headingVariants}
+          >
             <ReactTyped
               strings={[translations[language].globalPharma]}
               typeSpeed={50}
               startDelay={300}
               showCursor={false}
             />
-          </h1>
+          </motion.h1>
           <motion.p
             className="mt-6 text-xl leading-8"
             initial="hidden"

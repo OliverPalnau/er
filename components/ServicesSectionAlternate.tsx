@@ -1,12 +1,13 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
 import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/translations/translations";
 import { CheckIcon } from "@heroicons/react/20/solid";
-import { motion, useAnimation } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { FadeIn, FadeInStagger } from "./FadeIn";
+import { motion, useAnimation, useInView } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { FadeInStagger } from "./FadeIn";
 
 const staggerContainer = {
   hidden: { opacity: 0 },
@@ -27,12 +28,13 @@ export default function ServicesSectionAlternate() {
   const { language } = useLanguage();
   const serviceTranslations = translations[language].serviceItems;
   const words = translations[language].servicesHeading;
+  const lifecycleTranslation = translations[language].lifecycle;
   const controls = useAnimation();
   const highlightControls = useAnimation();
   const sectionRef = useRef(null);
-  const [inView, setInView] = useState(false);
-  const [highlightInView, setHighlightInView] = useState(false);
   const highlightRef = useRef(null);
+  const inView = useInView(sectionRef, { once: true, amount: 0.1 });
+  const highlightInView = useInView(highlightRef, { once: true, amount: 0.1 });
 
   const highlightText = (text: string) => {
     const parts = text.split("entire lifecycle.");
@@ -40,7 +42,7 @@ export default function ServicesSectionAlternate() {
       <>
         {parts[0]}
         <Highlight ref={highlightRef} className="text-black dark:text-white">
-          entire lifecycle.
+          {lifecycleTranslation}
         </Highlight>
         {parts[1]}
       </>
@@ -48,52 +50,22 @@ export default function ServicesSectionAlternate() {
   };
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setInView(entry.isIntersecting);
-        if (entry.isIntersecting) {
-          controls.start("visible");
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    if (inView) {
+      controls.start("visible");
     }
-
-    const highlightObserver = new IntersectionObserver(
-      ([entry]) => {
-        setHighlightInView(entry.isIntersecting);
-        if (entry.isIntersecting) {
-          highlightControls.start({
-            backgroundColor: "#00f",
-            transition: { duration: 0.5 },
-          });
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (highlightRef.current) {
-      highlightObserver.observe(highlightRef.current);
+    if (highlightInView) {
+      highlightControls.start({
+        backgroundColor: "#00f",
+        transition: { duration: 0.5 },
+      });
     }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-      if (highlightRef.current) {
-        highlightObserver.unobserve(highlightRef.current);
-      }
-    };
-  }, [controls, highlightControls]);
+  }, [inView, highlightInView, controls, highlightControls]);
 
   return (
-    <div ref={sectionRef}>
-      <div className="border-b-2 border-cyan-500 px-6 py-10 sm:py-10 lg:px-8 relative z-10">
-        <div className="mx-auto max-w-5xl text-center">
-          <HeroHighlight>
+    <div ref={sectionRef} className="w-full">
+      <div className="border-b-2 border-blue-500 px-6 py-10 sm:py-10 lg:px-8 relative z-10 w-full">
+        <div className="mx-auto max-w-9xl text-center w-full">
+          <HeroHighlight containerClassName="w-full">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={controls}
@@ -104,7 +76,7 @@ export default function ServicesSectionAlternate() {
                 duration: 0.5,
                 ease: [0.4, 0.0, 0.2, 1],
               }}
-              className="text-2xl px-4 md:text-4xl lg:text-5xl font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto "
+              className="text-2xl px-4 md:text-4xl lg:text-5xl font-bold text-neutral-700 dark:text-white max-w-full leading-relaxed lg:leading-snug text-center mx-auto"
             >
               {highlightText(words)}
             </motion.h1>
@@ -154,24 +126,42 @@ export default function ServicesSectionAlternate() {
                 className="col-span-2 grid grid-cols-1 gap-x-8 gap-y-10 text-base leading-7 text-gray-600 sm:grid-cols-2 lg:gap-y-16"
                 variants={staggerContainer}
               >
-                {serviceTranslations.map((service, index) => (
-                  <motion.div
-                    key={index}
-                    variants={fadeInUp}
-                    className="relative pl-9 group p-4 rounded-lg transform hover:scale-105 transition-transform duration-300"
-                  >
-                    <dt className="font-semibold text-cyan-600 group-hover:text-cyan-700">
-                      <CheckIcon
-                        className="absolute left-0 top-1 h-5 w-5 text-cyan-500 transform group-hover:rotate-12 transition-transform duration-300"
-                        aria-hidden="true"
-                      />
-                      {service.name}
-                    </dt>
-                    <dd className="mt-2 group-hover:text-gray-900 transition-colors duration-300">
-                      {service.description}
-                    </dd>
-                  </motion.div>
-                ))}
+                {serviceTranslations.map((service, index) => {
+                  const serviceRef = useRef(null);
+                  const serviceInView = useInView(serviceRef, {
+                    once: true,
+                    amount: 0.1,
+                  });
+                  const serviceControls = useAnimation();
+
+                  useEffect(() => {
+                    if (serviceInView) {
+                      serviceControls.start("visible");
+                    }
+                  }, [serviceInView, serviceControls]);
+
+                  return (
+                    <motion.div
+                      key={index}
+                      ref={serviceRef}
+                      initial="hidden"
+                      animate={serviceControls}
+                      variants={fadeInUp}
+                      className="relative pl-9 group p-4 rounded-lg transform hover:scale-105 transition-transform duration-300"
+                    >
+                      <dt className="font-semibold text-blue-600 group-hover:text-blue-700">
+                        <CheckIcon
+                          className="absolute left-0 top-1 h-5 w-5 text-blue-500 transform group-hover:rotate-12 transition-transform duration-300"
+                          aria-hidden="true"
+                        />
+                        {service.name}
+                      </dt>
+                      <dd className="mt-2 group-hover:text-gray-900 transition-colors duration-300">
+                        {service.description}
+                      </dd>
+                    </motion.div>
+                  );
+                })}
               </motion.dl>
             </motion.div>
           </div>

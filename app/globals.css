@@ -102,7 +102,7 @@
   }
   
   .text-outline {
-    -webkit-text-stroke: 1px rgb(0, 156, 156);
+    -webkit-text-stroke: 1px blue;
     color: transparent;
   }
 

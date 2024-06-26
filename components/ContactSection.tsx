@@ -1,33 +1,33 @@
 "use client";
 
-import { translations } from "@//translations/translations"; // Adjust the import path as necessary
+import { translations } from "@/translations/translations"; // Adjust the import path as necessary
 import { useLanguage } from "@/context/LanguageContext";
 import { useForm, ValidationError } from "@formspree/react";
 import { BuildingOffice2Icon, EnvelopeIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import {ReactTyped } from "react-typed";
+import {ReactTyped} from "react-typed";
 import { Button } from "./ui/moving-border";
+
+const fadeInFromLeftVariants = {
+  hidden: { opacity: 0, x: -50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+};
+
+const fadeInFromRightVariants = {
+  hidden: { opacity: 0, x: 50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+};
+
+const fadeInFromBottomVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+};
 
 
 const fadeInVariants = {
   hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0 },
-};
-
-const paragraphVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 1 } },
-};
-
-const paragraphVariants2 = {
-  hidden: { opacity: 0, x: -20 },
-  visible: { opacity: 1, x: 0, transition: { duration: 1 } },
-};
-
-const paragraphVariants3 = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 1 } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
 const staggerVariants = {
@@ -35,7 +35,7 @@ const staggerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: .7,
     },
   },
 };
@@ -125,20 +125,20 @@ export default function ContactSection() {
               </div>
               <ReactTyped
                 strings={[translations[language].contactHeading]}
-                typeSpeed={40}
-                className="text-4xl font-medium tracking-tight text-gray-900"
+                typeSpeed={100}
+                className="text-5xl font-medium tracking-tight text-gray-900"
               />
-              <motion.div variants={paragraphVariants}>
+              <motion.div variants={fadeInFromLeftVariants}>
                 <p className="mt-6 text-md leading-8 text-gray-600">
                   {translations[language].contactDescription}
                 </p>
               </motion.div>
-              <motion.div variants={paragraphVariants2}>
+              <motion.div variants={fadeInFromRightVariants} transition={{ delay: 0.2 }}>
                 <p className="mt-6 text-md leading-8 text-gray-600">
                   {translations[language].contactEmailPrompt}
                 </p>
               </motion.div>
-              <motion.div variants={paragraphVariants3}>
+              <motion.div variants={fadeInFromLeftVariants} transition={{ delay: 0.4 }}>
                 <p className="mt-6 text-md leading-8 text-blue-500">
                   {translations[language].contactServiceMarkets}
                 </p>

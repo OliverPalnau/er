@@ -1,7 +1,24 @@
 "use client";
 import { cn } from "@/utils/cn";
-import { useMotionValue, motion, useMotionTemplate } from "framer-motion";
-import React, { forwardRef } from "react";
+import {
+  useMotionValue,
+  motion,
+  useMotionTemplate,
+  useInView,
+} from "framer-motion";
+import React, { forwardRef, useEffect, useRef } from "react";
+
+function mergeRefs<T>(...refs: React.Ref<T>[]): React.Ref<T> {
+  return (node: T) => {
+    refs.forEach((ref) => {
+      if (typeof ref === "function") {
+        ref(node);
+      } else if (ref != null) {
+        (ref as React.MutableRefObject<T>).current = node;
+      }
+    });
+  };
+}
 
 export const HeroHighlight = ({
   children,
@@ -34,9 +51,9 @@ export const HeroHighlight = ({
       )}
       onMouseMove={handleMouseMove}
     >
-      <div className="absolute inset-0 bg-dot-thick-neutral-300 dark:bg-dot-thick-neutral-800  pointer-events-none" />
+      <div className="absolute inset-0 bg-dot-thick-neutral-300 dark:bg-dot-thick-neutral-800 pointer-events-none w-full" />
       <motion.div
-        className="pointer-events-none bg-dot-thick-blue-500 dark:bg-dot-thick-blue-500   absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100"
+        className="pointer-events-none bg-dot-thick-blue-500 dark:bg-dot-thick-blue-500 absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100 w-full"
         style={{
           WebkitMaskImage: useMotionTemplate`
             radial-gradient(
@@ -60,36 +77,40 @@ export const HeroHighlight = ({
   );
 };
 
-export const Highlight = forwardRef<HTMLSpanElement, { children: React.ReactNode; className?: string }>(
-  ({ children, className }, ref) => {
-    return (
-      <motion.span
-        initial={{
-          backgroundSize: "0% 100%",
-        }}
-        animate={{
-          backgroundSize: "100% 100%",
-        }}
-        transition={{
-          duration: 2,
-          ease: "linear",
-          delay: 0.5,
-        }}
-        style={{
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "left center",
-          display: "inline",
-        }}
-        className={cn(
-          `relative inline-block pb-1 px-1 rounded-lg bg-gradient-to-r from-blue-300 to-cyan-300 dark:from-blue-500 dark:to-cyan-500`,
-          className
-        )}
-        ref={ref}
-      >
-        {children}
-      </motion.span>
-    );
-  }
-);
+export const Highlight = forwardRef<
+  HTMLSpanElement,
+  { children: React.ReactNode; className?: string }
+>(({ children, className }, forwardedRef) => {
+  const localRef = useRef<HTMLSpanElement>(null);
+  const inView = useInView(localRef, { once: true, amount: 0.1 });
+
+  return (
+    <motion.span
+      ref={mergeRefs(localRef, forwardedRef)}
+      initial={{
+        backgroundSize: "0% 100%",
+      }}
+      animate={{
+        backgroundSize: inView ? "100% 100%" : "0% 100%",
+      }}
+      transition={{
+        duration: 4,
+        ease: "linear",
+        delay: 0.1,
+      }}
+      style={{
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "left center",
+        display: "inline",
+      }}
+      className={cn(
+        `relative inline-block pb-1 px-1 rounded-lg bg-gradient-to-r from-blue-300 to-cyan-300 dark:from-blue-500 dark:to-cyan-500`,
+        className
+      )}
+    >
+      {children}
+    </motion.span>
+  );
+});
 
 Highlight.displayName = "Highlight";

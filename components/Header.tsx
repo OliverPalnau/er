@@ -21,6 +21,12 @@ export default function Header() {
     setLanguageMenuOpen(false);
   };
 
+  const scrollToContactSection = () => {
+    document
+      .getElementById("contact-section")
+      ?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <header className="bg-black relative z-50">
       <nav
@@ -40,7 +46,11 @@ export default function Header() {
           </a>
         </div>
         <div className="flex flex-1 items-center justify-end gap-x-6">
-          <Button className="text-xs font-base" borderRadius="1.75rem">
+          <Button
+            className="text-xs font-base"
+            borderRadius="1.75rem"
+            onClick={scrollToContactSection}
+          >
             {translations[language].contact}
           </Button>
           <div className="relative">
